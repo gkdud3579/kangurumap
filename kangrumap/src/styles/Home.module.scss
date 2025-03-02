@@ -1,0 +1,151 @@
+@import "./variables";
+body {
+  background-color: $background-color;
+}
+
+.mainContent {
+  gap: 10px;
+}
+
+.logoImageSection {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+  margin-top: 10%;
+}
+
+.logoTitle {
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  color: $primary-color;
+}
+
+.description {
+  font-size: 20px;
+  text-align: center;
+  color: $text-color;
+  margin-bottom: 20%;
+}
+
+.locationLine {
+  display: flex;
+  justify-content: space-between;
+}
+
+.location {
+  font-size: 17px;
+  color: $text-color;
+}
+
+.searchButton {
+  background-color: $primary-color;
+  color: $white-color;
+  font-weight: bold;
+  border: none;
+  padding: 0 30px;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.searchButton:hover {
+  background-color: $button-hover;
+}
+
+.byCategory {
+  margin-top: 20px;
+  background-color: $background-sub-color;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.titleCategory {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.buttonsCateogry {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+}
+
+.buttonCategory {
+  background-color: $white-color;
+  color: $text-color;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.buttonCategory:hover {
+  background-color: $button-hover;
+}
+
+.byOption {
+  margin-top: 20px;
+  gap: 5px;
+  background-color: $background-sub-color;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.byOption p {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.optionLabels {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+}
+
+.byDistance {
+  margin-top: 20px;
+  margin-bottom: 100px;
+  background-color: $background-sub-color;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.byDistance p {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.buttonsDistance {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+}
+
+.byDistance button {
+  background-color: $white-color;
+  color: $text-color;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin: 5px;
+}
+
+.byDistance button:hover {
+  background-color: $button-hover;
+}
