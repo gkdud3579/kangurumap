@@ -93,6 +93,8 @@ body {
 
 .buttonCategory:hover {
   background-color: $button-hover;
+  color: $white-color;
+  font-weight: bold;
 }
 
 .byOption {
@@ -148,4 +150,6 @@ body {
 
 .byDistance button:hover {
   background-color: $button-hover;
+  color: $white-color;
+  font-weight: bold;
 }
