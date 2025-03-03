@@ -1,0 +1,160 @@
+@import "./variables";
+
+.sideBar {
+  width: 30%;
+  background-color: $background-sub-color;
+  margin: 0;
+  padding-top: 5%;
+  padding-bottom: 20%;
+}
+
+.divider {
+  width: 100%;
+  margin: 20% 0;
+  border: 1px solid $border-color; /* lightGray/30 대체 */
+}
+
+//Sidebar scss
+.byCategory {
+  background-color: $background-sub-color;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.titleCategory {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.buttonsCategory {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 10px;
+}
+
+.buttonCategory {
+  background-color: $white-color;
+  color: $text-color;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.buttonCategory:hover {
+  background-color: $button-hover;
+  color: $white-color;
+  font-weight: bold;
+}
+
+.byOption {
+  gap: 5px;
+  background-color: $background-sub-color;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.byOption p {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.optionLabels {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+}
+
+.byDistance {
+  background-color: $background-sub-color;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.byDistance p {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.buttonsDistance {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+}
+
+.byDistance button {
+  background-color: $white-color;
+  color: $text-color;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin: 5px;
+}
+
+.byDistance button:hover {
+  background-color: $button-hover;
+  color: $white-color;
+  font-weight: bold;
+}
+
+.searchButton {
+  background-color: $primary-color;
+  color: $white-color;
+  font-weight: bold;
+  border: none;
+  padding: 3px 40%;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+//location scss
+.locationLine {
+  display: flex;
+  justify-content: space-between;
+}
+
+.location {
+  font-size: 17px;
+  color: $text-color;
+}
+
+.resultMain {
+  display: flex;
+}
+
+//itemBox scss
+.itemBox {
+  padding: 10px;
+  width: 100%;
+}
+
+.selectedButtons {
+  background-color: $background-sub-color;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.selectedButtons button {
+  background-color: $white-color;
+  color: $text-color;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin: 5px;
+}
+
+//restaurantCard scss
+.restaurantCard {
+  padding: 10px;
+  width: 100%;
+}

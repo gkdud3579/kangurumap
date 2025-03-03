@@ -1,13 +1,24 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Sidebar from "../components/SideBar";
 import styles from "../styles/Result.module.scss";
+import ItemBox from "../components/ItemBox";
+import RestaurantCard from "../components/RestaurantCard";
+
 
 const Result = () => {
+
   return (
     <div className={styles.result}>
       <Header />
-      <h1>검색 결과 페이지</h1>
-      <p>이 페이지에서 검색 결과를 표시합니다.</p>
+      <div className={styles.resultMain}>
+        <Sidebar />
+        <div>
+        <ItemBox />
+        <RestaurantCard />
+        </div>
+        
+      </div>
       <Footer />
     </div>
   );
