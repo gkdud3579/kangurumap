@@ -1,8 +1,19 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styles from "../styles/Home.module.scss";
+import { useState, useEffect } from "react";
+import useGeolocation from "../hooks/useGeolocation";
 
 const Home = () => {
+  const { location, error } = useGeolocation();
+  const [currentLocation, setCurrentLocation] = useState(null);
+
+  useEffect(() => {
+    if (location) {
+      setCurrentLocation(`${location.lat}, ${location.lng}`);
+    }
+  }, [location]);
+
   return (
     <div className={styles.home}>
       <Header />
@@ -16,8 +27,16 @@ const Home = () => {
           教えてくれるサービスです
         </p>
         <div className={styles.locationLine}>
-          <p className={styles.location}>📍 1-7 Hama, Awaji, Hyogo 656-2304</p>
-          <button className={styles.searchButton}>検索</button>
+          {/* 위치 정보를 가져왔을 때만 표시 */}
+          {currentLocation ? (
+            <p className={styles.location}>📍 {currentLocation}</p>
+          ) : error ? (
+            /* 오류가 발생했을 때만 표시 */
+            <p className={styles.error}>エラー: {error}</p>
+          ) : (
+            /* 위치 정보가 없을 때 로딩 상태 표시 */
+            <p className={styles.location}>位置情報を取得中...</p>
+          )}
         </div>
 
         <div className={styles.byCategory}>
