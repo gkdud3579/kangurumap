@@ -68,6 +68,7 @@ const Home = () => {
             ) : (
               <p>ジャンルを読み込み中...</p>
             )}
+            <button className={styles.buttonCategory}>全てのグルメ</button>
           </div>
         </div>
 
@@ -92,11 +93,11 @@ const Home = () => {
         <div className={styles.byDistance}>
           <p>距離順で検索</p>
           <div className={styles.buttonsDistance}>
-            <button>300m</button>
-            <button>500m</button>
-            <button>1000m</button>
-            <button>2000m</button>
-            <button>3000m</button>
+            <button>300m以内</button>
+            <button>500m以内</button>
+            <button>1000m以内</button>
+            <button>2000m以内</button>
+            <button>3000m以内</button>
           </div>
         </div>
       </main>
