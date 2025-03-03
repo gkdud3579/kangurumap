@@ -1,7 +1,16 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-})
+  server: {
+    proxy: {
+      "/api/hotpepper": {
+        target: "https://webservice.recruit.co.jp", // Hot Pepper API URL
+        changeOrigin: true, // CORS 우회
+        rewrite: (path) => path.replace(/^\/api\/hotpepper/, "/hotpepper"), // URL 재작성
+        secure: false, // HTTPS 관련 오류 방지
+      },
+    },
+  },
+});

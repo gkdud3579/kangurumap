@@ -4,14 +4,20 @@ import styles from "../styles/Home.module.scss";
 import { useState, useEffect } from "react";
 import useGeolocation from "../hooks/useGeolocation";
 import useReverseGeocoding from "../hooks/useReverseGeocoding";
+import useGenres from "../hooks/useGenres";
 
 const Home = () => {
   const { location, error: locationError } = useGeolocation(); // 위도/경도 가져오기
   const { address, error: addressError } = useReverseGeocoding(
     location?.lat,
     location?.lng
-  ); // 위도/경도를 주소로 변환
+  );
+
+  // 위도/경도를 주소로 변환
   const [currentLocation, setCurrentLocation] = useState(null);
+
+  //장르 정보 가져오기
+  const { genres, error: genreError } = useGenres();
 
   useEffect(() => {
     if (address) {
@@ -44,12 +50,24 @@ const Home = () => {
             /* 위치 정보가 없을 때 로딩 상태 표시 */
             <p className={styles.location}>位置情報を取得中...</p>
           )}
+          <button className={styles.searchButton}>検索</button>
         </div>
 
         <div className={styles.byCategory}>
           <h1 className={styles.titleCategory}>メニューで検索</h1>
           <div className={styles.buttonsCategory}>
-            <button className={styles.buttonCategory}>居酒屋</button>
+            {/* 장르 버튼 동적으로 생성 */}
+            {genreError ? (
+              <p className={styles.error}>エラー: {genreError}</p>
+            ) : genres.length > 0 ? (
+              genres.map((genre) => (
+                <button key={genre.code} className={styles.buttonCategory}>
+                  {genre.name}
+                </button>
+              ))
+            ) : (
+              <p>ジャンルを読み込み中...</p>
+            )}
           </div>
         </div>
 

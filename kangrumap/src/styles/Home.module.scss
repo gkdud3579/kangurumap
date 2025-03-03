@@ -76,9 +76,10 @@ body {
   margin-top: 0;
 }
 
-.buttonsCateogry {
+.buttonsCategory {
   display: grid;
   grid-template-columns: repeat(5, auto);
+  gap: 10px;
 }
 
 .buttonCategory {
