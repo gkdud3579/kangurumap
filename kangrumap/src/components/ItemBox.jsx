@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import useGeolocation from "../hooks/useGeolocation";
 import useReverseGeocoding from "../hooks/useReverseGeocoding";
 
-const ItemBox = ({ setLatLng }) => {
+const ItemBox = () => {
   const { location, error: locationError } = useGeolocation(); // 위도/경도 가져오기
   const { address, error: addressError } = useReverseGeocoding(
     location?.lat,
@@ -18,13 +18,6 @@ const ItemBox = ({ setLatLng }) => {
       setCurrentLocation(address);
     }
   }, [address]);
-
-  //현재 위치 정보가 변경될 때, 'Result.jsx'로 전달
-  useEffect(() => {
-    if (location) {
-      setLatLng(location);
-    }
-  }, [location, setLatLng]);
 
   return (
     <div className={styles.itemBox}>
