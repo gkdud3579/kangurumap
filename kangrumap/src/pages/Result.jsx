@@ -13,11 +13,10 @@ const Result = () => {
       <Header />
       <div className={styles.resultMain}>
         <Sidebar />
-        <div>
+        <div className={styles.resultCard}>
         <ItemBox />
         <RestaurantCard />
         </div>
-        
       </div>
       <Footer />
     </div>
