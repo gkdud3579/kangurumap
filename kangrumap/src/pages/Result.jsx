@@ -64,7 +64,14 @@ const Result = () => {
       <div className={styles.resultMain}>
         <Sidebar />
         <div className={styles.resultCard}>
-          <ItemBox setLatLng={setLatLng} latLng={latLng} />
+          <ItemBox
+            setLatLng={setLatLng}
+            latLng={latLng}
+            selectedGenre={selectedGenre}
+            selectedDistance={selectedDistance}
+            selectedOptions={selectedOptions}
+          />
+
           {/*  에러 메시지 출력 */}
           {restaurantError && (
             <p className={styles.error}>エラー: {restaurantError}</p>

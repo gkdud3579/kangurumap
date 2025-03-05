@@ -60,28 +60,28 @@ const ItemBox = ({
 
       {/* 선택된 조건 버튼 표시 */}
       <div className={styles.selectedButtons}>
-        {/* 장르 버튼 (값이 있을 경우에만 표시) */}
-        {selectedGenre && (
+        {/* 장르 버튼 */}
+        {selectedGenre && selectedGenre !== "all" && (
           <button className={styles.filterButton}>
             {selectedGenre || "全てのグルメ"}
           </button>
         )}
 
-        {/* 거리 버튼 (값이 있을 경우에만 표시) */}
+        {/* 거리 버튼 */}
         {selectedDistance && (
           <button className={styles.filterButton}>
             {selectedDistance}m 以内
           </button>
         )}
 
-        {/* 옵션 버튼 (옵션이 배열이고 1개 이상 있을 때만 표시) */}
-        {Array.isArray(selectedOptions) && selectedOptions.length > 0
-          ? selectedOptions.map((option, index) => (
-              <button key={index} className={styles.filterButton}>
-                {option}
-              </button>
-            ))
-          : null}
+        {/* 옵션 버튼 */}
+        {Array.isArray(selectedOptions) &&
+          selectedOptions.length > 0 &&
+          selectedOptions.map((option, index) => (
+            <button key={index} className={styles.filterButton}>
+              {option}
+            </button>
+          ))}
       </div>
     </div>
   );
