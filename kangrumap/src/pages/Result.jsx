@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
@@ -16,7 +17,7 @@ const Result = () => {
   const selectedDistance = queryParams.get("distance");
 
   const [latLng, setLatLng] = useState(null);
-  const { restaurants, error: restaurantError } = useRestaurants(
+  const { restaurants, resultsAvailable, error: restaurantError } = useRestaurants(
     latLng?.lat,
     latLng?.lng,
     selectedGenre, // 선택된 장르 추가
@@ -49,7 +50,7 @@ const Result = () => {
             )
           : true;
 
-        return genreMatch && optionsMatch; // 🔹 거리 필터링 제거
+        return genreMatch && optionsMatch;
       })
     : [];
 
@@ -71,6 +72,7 @@ const Result = () => {
             selectedDistance={selectedDistance}
             selectedOptions={selectedOptions}
           />
+          <p className={styles.total}>検索結果 {resultsAvailable}件</p>
 
           {/*  에러 메시지 출력 */}
           {restaurantError && (

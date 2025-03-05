@@ -1,15 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 
 const API_KEY = import.meta.env.VITE_HOTPEPPER_API_KEY;
 
 const useRestaurants = (lat, lng, genre, distance, options) => {
   const [restaurants, setRestaurants] = useState([]);
+  const [resultsAvailable, setResultsAvailable] = useState(0);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!lat || !lng) return;
 
-    const controller = new AbortController(); // ✅ 요청 취소용 AbortController 생성
+    const controller = new AbortController(); // 요청 취소용 AbortController 생성
     const signal = controller.signal;
 
     const fetchRestaurants = async () => {
@@ -27,9 +29,16 @@ const useRestaurants = (lat, lng, genre, distance, options) => {
         }&${featureParams}&format=json`;
 
         console.log("📡 요청 URL:", url);
-        console.log("🔎 선택된 장르:", genre, "거리:", distance, "옵션:", options);
+        console.log(
+          "🔎 선택된 장르:",
+          genre,
+          "거리:",
+          distance,
+          "옵션:",
+          options
+        );
 
-        const response = await fetch(url, { signal }); // ✅ AbortSignal 적용
+        const response = await fetch(url, { signal }); // AbortSignal 적용
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -39,9 +48,11 @@ const useRestaurants = (lat, lng, genre, distance, options) => {
 
         if (data.results.shop.length > 0) {
           setRestaurants(data.results.shop);
+          setResultsAvailable(data.results.results_available);
         } else {
           console.warn("🚨 검색 결과가 없습니다.");
           setRestaurants([]);
+          setResultsAvailable(0);
         }
       } catch (error) {
         if (error.name === "AbortError") {
@@ -56,11 +67,11 @@ const useRestaurants = (lat, lng, genre, distance, options) => {
     fetchRestaurants();
 
     return () => {
-      controller.abort(); // ✅ 컴포넌트 언마운트 시 요청 중단
+      controller.abort(); // 컴포넌트 언마운트 시 요청 중단
     };
   }, [lat, lng, genre, distance, JSON.stringify(options)]);
 
-  return { restaurants, error };
+  return { restaurants, resultsAvailable, error };
 };
 
 export default useRestaurants;

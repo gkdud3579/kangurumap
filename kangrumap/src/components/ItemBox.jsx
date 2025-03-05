@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import useGenres from "../hooks/useGenres";
 import styles from "../styles/Result.module.scss";
 import useGeolocation from "../hooks/useGeolocation";
 import useReverseGeocoding from "../hooks/useReverseGeocoding";
@@ -43,6 +44,11 @@ const ItemBox = ({
     console.log("✅ 선택된 옵션:", selectedOptions);
   }, [currentLocation, selectedGenre, selectedDistance, selectedOptions]);
 
+  const { genres } = useGenres(); // 장르 목록 가져오기
+
+  const genreName =
+    genres.find((g) => g.code === selectedGenre)?.name || "全てのグルメ";
+
   return (
     <div className={styles.itemBox}>
       <div className={styles.locationLine}>
@@ -63,7 +69,7 @@ const ItemBox = ({
         {/* 장르 버튼 */}
         {selectedGenre && selectedGenre !== "all" && (
           <button className={styles.filterButton}>
-            {selectedGenre || "全てのグルメ"}
+            {genreName || "全てのグルメ"}
           </button>
         )}
 
