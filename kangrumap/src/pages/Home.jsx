@@ -72,14 +72,22 @@ const Home = () => {
     <div className={styles.home}>
       <Header />
       <main className={styles.mainContent}>
-        <div className={styles.logoImageSection}>
-          <img src="/logo.png" alt="Logo" className={styles.logo} />
+        <div className={styles.backgroundContainer}>
+          {/* 배경 이미지 적용 */}
+          <div className={styles.backgroundImage}></div>
+
+          {/* 내용 부분 */}
+          <div className={styles.content}>
+            <div className={styles.logoImageSection}>
+              <img src="/logo.png" alt="Logo" className={styles.logo} />
+            </div>
+            <p className={styles.logoTitle}>韓グルマップ</p>
+            <p className={styles.description}>
+              韓グルマップは<br></br>現在地周辺のグルメを<br></br>
+              教えてくれるサービスです
+            </p>
+          </div>
         </div>
-        <p className={styles.logoTitle}>韓グルマップ</p>
-        <p className={styles.description}>
-          韓グルマップは<br></br>現在地周辺のグルメを<br></br>
-          教えてくれるサービスです
-        </p>
 
         {/* 📍 현재 위치 */}
         <div className={styles.locationLine}>

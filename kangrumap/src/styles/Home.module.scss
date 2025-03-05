@@ -7,6 +7,35 @@ body {
   gap: 10px;
 }
 
+.backgroundContainer {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.backgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/backgroundImage.png");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3;
+  z-index: -1; 
+}
+
+.content {
+  position: relative;
+  z-index: 1; 
+  color: $black-color; 
+}
+
 .logoImageSection {
   display: flex;
   flex-wrap: nowrap;
@@ -30,9 +59,9 @@ body {
 }
 
 .description {
-  font-size: 20px;
+  font-size: 30px;
   text-align: center;
-  color: $text-color;
+  color: black;
   margin-bottom: 20%;
 }
 
