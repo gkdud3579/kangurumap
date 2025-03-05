@@ -98,6 +98,12 @@ body {
   font-weight: bold;
 }
 
+.buttonCategory.selected {
+  background-color: $button-hover;
+  color: $white-color;
+  font-weight: bold;
+}
+
 .byOption {
   margin-top: 20px;
   gap: 5px;
@@ -150,6 +156,12 @@ body {
 }
 
 .byDistance button:hover {
+  background-color: $button-hover;
+  color: $white-color;
+  font-weight: bold;
+}
+
+.byDistance button.selected {
   background-color: $button-hover;
   color: $white-color;
   font-weight: bold;

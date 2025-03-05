@@ -6,7 +6,7 @@ const Sidebar = () => {
   return (
     <div className={styles.sideBar}>
       <div className={styles.byCategory}>
-        <h1 className={styles.titleCategory}>メニューで検索</h1>
+        <h1 className={styles.titleCategory}>料理・ジャンルで検索</h1>
         <div className={styles.buttonsCategory}>
           {/* 장르 버튼 동적으로 생성 */}
           {genreError ? (
@@ -45,7 +45,7 @@ const Sidebar = () => {
       </div>
 
       <div className={styles.byDistance}>
-        <p>距離順で検索</p>
+        <p>距離で検索</p>
         <div className={styles.buttonsDistance}>
           <button>300m以内</button>
           <button>500m以内</button>
