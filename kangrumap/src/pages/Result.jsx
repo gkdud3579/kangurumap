@@ -8,6 +8,7 @@ import styles from "../styles/Result.module.scss";
 import ItemBox from "../components/ItemBox";
 import RestaurantCard from "../components/RestaurantCard";
 import useRestaurants from "../hooks/useRestaurants";
+import Pagination from "../components/Pagination";
 
 const Result = () => {
   const location = useLocation();
@@ -17,13 +18,23 @@ const Result = () => {
   const selectedDistance = queryParams.get("distance");
 
   const [latLng, setLatLng] = useState(null);
-  const { restaurants, resultsAvailable, error: restaurantError } = useRestaurants(
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const {
+    restaurants,
+    resultsAvailable,
+    error: restaurantError,
+  } = useRestaurants(
     latLng?.lat,
     latLng?.lng,
     selectedGenre, // 선택된 장르 추가
     selectedDistance, // 선택된 거리 추가
-    selectedOptions // 선택된 옵션 추가
+    selectedOptions, // 선택된 옵션 추가
+    currentPage
   );
+
+  // 총 페이지 수 계산 (10개씩 나누기)
+  const totalPages = Math.ceil(resultsAvailable / 10);
 
   // 📌 디버깅을 위한 콘솔 로그 추가
   useEffect(() => {
@@ -80,10 +91,19 @@ const Result = () => {
           )}
 
           {/* 필터링된 음식점 출력 */}
-          {filteredRestaurants.length > 0 ? (
-            filteredRestaurants.map((restaurant) => (
-              <RestaurantCard key={restaurant.id} restaurant={restaurant} />
-            ))
+          {restaurants.length > 0 ? (
+            <>
+              {restaurants.map((restaurant) => (
+                <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+              ))}
+
+              {/* Pagination 컴포넌트 적용 */}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            </>
           ) : (
             <p className={styles.noResults}>
               ご希望のお店がありませんでした。

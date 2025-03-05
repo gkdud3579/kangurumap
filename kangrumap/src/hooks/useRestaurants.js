@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 const API_KEY = import.meta.env.VITE_HOTPEPPER_API_KEY;
 
-const useRestaurants = (lat, lng, genre, distance, options) => {
+const useRestaurants = (lat, lng, genre, distance, options, page = 1) => {
   const [restaurants, setRestaurants] = useState([]);
   const [resultsAvailable, setResultsAvailable] = useState(0);
   const [error, setError] = useState(null);
@@ -11,7 +11,7 @@ const useRestaurants = (lat, lng, genre, distance, options) => {
   useEffect(() => {
     if (!lat || !lng) return;
 
-    const controller = new AbortController(); // 요청 취소용 AbortController 생성
+    const controller = new AbortController();
     const signal = controller.signal;
 
     const fetchRestaurants = async () => {
@@ -24,9 +24,12 @@ const useRestaurants = (lat, lng, genre, distance, options) => {
                 .join("&")
             : "";
 
+        const resultsPerPage = 10; // 한 페이지당 10개
+        const start = (page - 1) * resultsPerPage + 1; // 시작 인덱스 계산
+
         const url = `/api/hotpepper/gourmet/v1/?key=${API_KEY}&lat=${lat}&lng=${lng}&range=${apiRange}&genre=${
           genre || ""
-        }&${featureParams}&format=json`;
+        }&${featureParams}&start=${start}&count=${resultsPerPage}&format=json`;
 
         console.log("📡 요청 URL:", url);
         console.log(
@@ -35,10 +38,12 @@ const useRestaurants = (lat, lng, genre, distance, options) => {
           "거리:",
           distance,
           "옵션:",
-          options
+          options,
+          "페이지:",
+          page
         );
 
-        const response = await fetch(url, { signal }); // AbortSignal 적용
+        const response = await fetch(url, { signal });
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -69,7 +74,7 @@ const useRestaurants = (lat, lng, genre, distance, options) => {
     return () => {
       controller.abort(); // 컴포넌트 언마운트 시 요청 중단
     };
-  }, [lat, lng, genre, distance, JSON.stringify(options)]);
+  }, [lat, lng, genre, distance, JSON.stringify(options), page]);
 
   return { restaurants, resultsAvailable, error };
 };
