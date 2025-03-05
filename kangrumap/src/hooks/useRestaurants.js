@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 const API_KEY = import.meta.env.VITE_HOTPEPPER_API_KEY;
 
-const useRestaurants = (lat, lng, genre, distance, options, page = 1) => {
+const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
   const [restaurants, setRestaurants] = useState([]);
   const [resultsAvailable, setResultsAvailable] = useState(0);
   const [error, setError] = useState(null);
@@ -17,19 +17,15 @@ const useRestaurants = (lat, lng, genre, distance, options, page = 1) => {
     const fetchRestaurants = async () => {
       try {
         const apiRange = distance ? Math.min(Math.ceil(distance / 500), 5) : 3;
-        const featureParams =
-          options.length > 0
-            ? options
-                .map((option) => `features=${encodeURIComponent(option)}`)
-                .join("&")
-            : "";
 
-        const resultsPerPage = 10; // 한 페이지당 10개
-        const start = (page - 1) * resultsPerPage + 1; // 시작 인덱스 계산
+        const featureParams =
+          options && options.length > 0
+            ? options.map((option) => `${option}=あり`).join("&")
+            : "";
 
         const url = `/api/hotpepper/gourmet/v1/?key=${API_KEY}&lat=${lat}&lng=${lng}&range=${apiRange}&genre=${
           genre || ""
-        }&${featureParams}&start=${start}&count=${resultsPerPage}&format=json`;
+        }&${featureParams}&format=json`;
 
         console.log("📡 요청 URL:", url);
         console.log(
@@ -72,7 +68,7 @@ const useRestaurants = (lat, lng, genre, distance, options, page = 1) => {
     fetchRestaurants();
 
     return () => {
-      controller.abort(); // 컴포넌트 언마운트 시 요청 중단
+      controller.abort(); 
     };
   }, [lat, lng, genre, distance, JSON.stringify(options), page]);
 

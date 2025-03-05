@@ -35,6 +35,13 @@ const Home = () => {
     }
   }, [address]);
 
+  const optionMappings = {
+    英語メニュー: "english",
+    WiFi: "wifi",
+    カード払い: "card",
+    禁煙席: "non_smoking",
+  };
+
   // 장르 버튼 클릭 시 선택한 장르 저장
   const handleGenreClick = (genre) => {
     console.log("🔹 장르 선택:", genre.name);
@@ -43,11 +50,16 @@ const Home = () => {
 
   //옵션 체크박스 클릭 시 선택된 옵션 업데이트
   const handleOptionChange = (option) => {
-    console.log("🔹 옵션 선택:", option);
-    setSelectedOptions((prevOptions) =>
-      prevOptions.includes(option)
-        ? prevOptions.filter((o) => o !== option)
-        : [...prevOptions, option]
+    const apiField = optionMappings[option]; // UI 옵션명을 API 필드명으로 변환
+    if (!apiField) return;
+
+    console.log(`🔹 옵션 선택: ${option} (API 필드: ${apiField})`);
+
+    setSelectedOptions(
+      (prevOptions) =>
+        prevOptions.includes(apiField)
+          ? prevOptions.filter((o) => o !== apiField) // 선택 해제 시 제거
+          : [...prevOptions, apiField] // 선택 시 추가
     );
   };
 
@@ -60,9 +72,10 @@ const Home = () => {
   // "検索" 버튼 클릭 시 선택한 조건을 URL 쿼리로 전달하여 `Result.jsx`로 이동
   const handleSearch = () => {
     const queryParams = new URLSearchParams();
+
     if (selectedGenre) queryParams.append("genre", selectedGenre);
     if (selectedOptions.length > 0)
-      queryParams.append("options", selectedOptions.join(","));
+      queryParams.append("options", selectedOptions.join(",")); // API 필드명으로 전달
     if (selectedDistance) queryParams.append("distance", selectedDistance);
 
     navigate(`/result?${queryParams.toString()}`);
@@ -134,11 +147,11 @@ const Home = () => {
         <div className={styles.byOption}>
           <p>条件で検索</p>
           <div className={styles.optionLabels}>
-            {["英語メニュー", "WiFi", "カード払い", "禁煙席"].map((option) => (
+            {Object.keys(optionMappings).map((option) => (
               <label key={option}>
                 <input
                   type="checkbox"
-                  checked={selectedOptions.includes(option)}
+                  checked={selectedOptions.includes(optionMappings[option])}
                   onChange={() => handleOptionChange(option)}
                 />
                 {option}

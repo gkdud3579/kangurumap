@@ -45,6 +45,14 @@ const ItemBox = ({
   }, [currentLocation, selectedGenre, selectedDistance, selectedOptions]);
 
   const { genres } = useGenres(); // 장르 목록 가져오기
+ 
+  // 옵션명을 일본어로 변환하는 매핑 테이블
+  const optionMappings = {
+    english: "英語メニュー",
+    wifi: "WiFi",
+    card: "カード払い",
+    non_smoking: "禁煙席",
+  };
 
   const genreName =
     genres.find((g) => g.code === selectedGenre)?.name || "全てのグルメ";
@@ -80,12 +88,12 @@ const ItemBox = ({
           </button>
         )}
 
-        {/* 옵션 버튼 */}
+        {/* 옵션 버튼 (옵션이 배열이고 1개 이상 있을 때만 표시) */}
         {Array.isArray(selectedOptions) &&
           selectedOptions.length > 0 &&
           selectedOptions.map((option, index) => (
             <button key={index} className={styles.filterButton}>
-              {option}
+              {optionMappings[option] || option} {/* ✅ 매핑된 이름 표시 */}
             </button>
           ))}
       </div>

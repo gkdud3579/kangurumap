@@ -27,9 +27,9 @@ const Result = () => {
   } = useRestaurants(
     latLng?.lat,
     latLng?.lng,
-    selectedGenre, // 선택된 장르 추가
-    selectedDistance, // 선택된 거리 추가
-    selectedOptions, // 선택된 옵션 추가
+    selectedGenre, 
+    selectedDistance, 
+    selectedOptions, 
     currentPage
   );
 
@@ -53,11 +53,11 @@ const Result = () => {
           ? restaurant.genre && restaurant.genre.code === selectedGenre
           : true;
 
-        // 2️⃣ 옵션 필터링: 선택된 옵션이 있을 때만 적용
+        // 2️⃣ 옵션 필터링: API에서 받은 데이터와 비교
         const optionsMatch = selectedOptions.length
-          ? restaurant.features &&
-            selectedOptions.every((option) =>
-              restaurant.features.includes(option)
+          ? selectedOptions.every(
+              (option) =>
+                restaurant[option] === "あり" || restaurant[option] === "利用可"
             )
           : true;
 
