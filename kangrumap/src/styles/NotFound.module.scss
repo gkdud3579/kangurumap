@@ -1,0 +1,26 @@
+@import "./variables";
+
+.notFound {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    margin-top: 30%;
+}
+
+.notFound h1 {
+    font-size: 80px;
+    margin: 0;
+    color: $primary-color;
+}
+
+.description {
+    font-size: 25px;
+    margin: 0;
+    color: $primary-color;
+}
+
+.emoji {
+    font-size: 50px;
+    margin: 10px 0 0 0;
+}
