@@ -138,6 +138,7 @@ const Home = () => {
         {/* 🍽 料理・ジャンル 선택 */}
         <div className={styles.byCategory}>
           <h1 className={styles.titleCategory}>料理・ジャンルで検索</h1>
+          <p className={styles.descriptionCategory}>✏️ 複数選択可能、未選択時に全体選択で適用されます。</p>
           <div className={styles.buttonsCategory}>
             {genreError ? (
               <p className={styles.error}>エラー: {genreError}</p>

@@ -32,8 +32,12 @@
 .titleCategory {
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 20px;
-  margin-top: 0;
+  margin: 0;
+}
+
+.descriptionCategory {
+  font-size: 11px;
+  margin: 0 0 20px 0;
 }
 
 .buttonsCategory {
@@ -53,6 +57,12 @@
 }
 
 .buttonCategory:hover {
+  background-color: $button-hover;
+  color: $white-color;
+  font-weight: bold;
+}
+
+.buttonCategory.selected {
   background-color: $button-hover;
   color: $white-color;
   font-weight: bold;
@@ -106,6 +116,12 @@
 }
 
 .byDistance button:hover {
+  background-color: $button-hover;
+  color: $white-color;
+  font-weight: bold;
+}
+
+.byDistance button.selected {
   background-color: $button-hover;
   color: $white-color;
   font-weight: bold;
