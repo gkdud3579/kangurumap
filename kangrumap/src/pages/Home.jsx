@@ -6,7 +6,7 @@ import styles from "../styles/Home.module.scss";
 import useGeolocation from "../hooks/useGeolocation";
 import useReverseGeocoding from "../hooks/useReverseGeocoding";
 import useGenres from "../hooks/useGenres";
-import Swal from "sweetalert2"; 
+import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
 const Home = () => {
@@ -20,7 +20,7 @@ const Home = () => {
   );
 
   // 선택된 조건을 저장할 상태
-  const [selectedGenre, setSelectedGenre] = useState(null);
+  const [selectedGenres, setSelectedGenres] = useState([]); // 복수 선택을 위해 배열 사용
   const [selectedOptions, setSelectedOptions] = useState([]); // 옵션 (WiFi, 카드 결제 등)
   const [selectedDistance, setSelectedDistance] = useState(null);
 
@@ -46,8 +46,12 @@ const Home = () => {
 
   // 장르 버튼 클릭 시 선택한 장르 저장
   const handleGenreClick = (genre) => {
-    console.log("🔹 장르 선택:", genre.name);
-    setSelectedGenre(genre.code);
+    setSelectedGenres(
+      (prevGenres) =>
+        prevGenres.includes(genre.code)
+          ? prevGenres.filter((g) => g !== genre.code) // 클릭 시 제거
+          : [...prevGenres, genre.code] // 클릭 시 추가
+    );
   };
 
   //옵션 체크박스 클릭 시 선택된 옵션 업데이트
@@ -77,14 +81,15 @@ const Home = () => {
       Swal.fire({
         icon: "error",
         title: "あれ？",
-        text: "検索を行うには距離を選択してください！"
+        text: "検索を行うには距離を選択してください！",
       });
-      return; // 검색 중단
+      return;
     }
 
     const queryParams = new URLSearchParams();
 
-    if (selectedGenre) queryParams.append("genre", selectedGenre);
+    if (selectedGenres.length > 0)
+      queryParams.append("genre", selectedGenres.join(",")); // 복수 선택된 장르를 콤마(,)로 구분
     if (selectedOptions.length > 0)
       queryParams.append("options", selectedOptions.join(","));
     if (selectedDistance) queryParams.append("distance", selectedDistance);
@@ -141,7 +146,7 @@ const Home = () => {
                 <button
                   key={genre.code}
                   className={`${styles.buttonCategory} ${
-                    selectedGenre === genre.code ? styles.selected : ""
+                    selectedGenres.includes(genre.code) ? styles.selected : "" // 복수 선택 가능하도록 수정
                   }`}
                   onClick={() => handleGenreClick(genre)}
                 >

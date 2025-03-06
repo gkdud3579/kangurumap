@@ -13,7 +13,7 @@ import Pagination from "../components/Pagination";
 const Result = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const selectedGenre = queryParams.get("genre");
+  const selectedGenres = queryParams.get("genre")?.split(",") || [];
   const selectedOptions = queryParams.get("options")?.split(",") || [];
   const selectedDistance = queryParams.get("distance");
 
@@ -27,7 +27,7 @@ const Result = () => {
   } = useRestaurants(
     latLng?.lat,
     latLng?.lng,
-    selectedGenre,
+    selectedGenres,
     selectedDistance,
     selectedOptions,
     currentPage
@@ -49,8 +49,8 @@ const Result = () => {
   const filteredRestaurants = restaurants
     ? restaurants.filter((restaurant) => {
         // 1️⃣ 장르 필터링: 선택된 장르가 있을 때만 적용
-        const genreMatch = selectedGenre
-          ? restaurant.genre && restaurant.genre.code === selectedGenre
+        const genreMatch = selectedGenres
+          ? restaurant.genre && restaurant.genre.code === selectedGenres
           : true;
 
         // 2️⃣ 옵션 필터링: API에서 받은 데이터와 비교
@@ -89,7 +89,7 @@ const Result = () => {
           <ItemBox
             setLatLng={setLatLng}
             latLng={latLng}
-            selectedGenre={selectedGenre}
+            selectedGenres={selectedGenres}
             selectedDistance={selectedDistance}
             selectedOptions={selectedOptions}
           />

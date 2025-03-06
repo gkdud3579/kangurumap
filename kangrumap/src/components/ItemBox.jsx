@@ -7,7 +7,7 @@ import useReverseGeocoding from "../hooks/useReverseGeocoding";
 const ItemBox = ({
   setLatLng,
   latLng,
-  selectedGenre = "",
+  selectedGenres = [],
   selectedDistance = "",
   selectedOptions = [],
 }) => {
@@ -37,15 +37,16 @@ const ItemBox = ({
     }
   }, [location, latLng, setLatLng]);
 
-//   useEffect(() => {
-//     console.log("📍 ItemBox - 현재 위치:", currentLocation);
-//     console.log("🎯 선택된 장르:", selectedGenre);
-//     console.log("📏 선택된 거리:", selectedDistance);
-//     console.log("✅ 선택된 옵션:", selectedOptions);
-//   }, [currentLocation, selectedGenre, selectedDistance, selectedOptions]);
+  //   useEffect(() => {
+  //     console.log("📍 ItemBox - 현재 위치:", currentLocation);
+  //     console.log("🎯 선택된 장르:", selectedGenre);
+  //     console.log("📏 선택된 거리:", selectedDistance);
+  //     console.log("✅ 선택된 옵션:", selectedOptions);
+  //   }, [currentLocation, selectedGenre, selectedDistance, selectedOptions]);
 
-  const { genres } = useGenres(); // 장르 목록 가져오기
- 
+  // 장르 목록 가져오기
+  const { genres } = useGenres();
+
   // 옵션명을 일본어로 변환하는 매핑 테이블
   const optionMappings = {
     english: "英語メニュー",
@@ -53,9 +54,6 @@ const ItemBox = ({
     card: "カード払い",
     non_smoking: "禁煙席",
   };
-
-  const genreName =
-    genres.find((g) => g.code === selectedGenre)?.name || "全てのグルメ";
 
   return (
     <div className={styles.itemBox}>
@@ -74,11 +72,18 @@ const ItemBox = ({
 
       {/* 선택된 조건 버튼 표시 */}
       <div className={styles.selectedButtons}>
-        {/* 장르 버튼 */}
-        {selectedGenre && selectedGenre !== "all" && (
-          <button className={styles.filterButton}>
-            {genreName || "全てのグルメ"}
-          </button>
+        {/* 선택된 장르 버튼 */}
+        {selectedGenres.length > 0 ? (
+          selectedGenres.map((genreCode) => {
+            const genre = genres.find((g) => g.code === genreCode);
+            return genre ? (
+              <button key={genreCode} className={styles.filterButton}>
+                {genre.name}
+              </button>
+            ) : null;
+          })
+        ) : (
+          <button className={styles.filterButton}>全てのグルメ</button>
         )}
 
         {/* 거리 버튼 */}
