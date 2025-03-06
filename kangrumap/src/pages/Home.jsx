@@ -6,11 +6,13 @@ import styles from "../styles/Home.module.scss";
 import useGeolocation from "../hooks/useGeolocation";
 import useReverseGeocoding from "../hooks/useReverseGeocoding";
 import useGenres from "../hooks/useGenres";
+import Swal from "sweetalert2"; 
+import "sweetalert2/dist/sweetalert2.min.css";
 
 const Home = () => {
   const navigate = useNavigate();
 
-  // 📍 위치 정보 가져오기
+  // 위치 정보 가져오기
   const { location, error: locationError } = useGeolocation();
   const { address, error: addressError } = useReverseGeocoding(
     location?.lat,
@@ -28,7 +30,7 @@ const Home = () => {
   // 장르 정보 가져오기
   const { genres, error: genreError } = useGenres();
 
-  // 📍 위치 정보 업데이트
+  // 위치 정보 업데이트
   useEffect(() => {
     if (address) {
       setCurrentLocation(address);
@@ -71,11 +73,20 @@ const Home = () => {
 
   // "検索" 버튼 클릭 시 선택한 조건을 URL 쿼리로 전달하여 `Result.jsx`로 이동
   const handleSearch = () => {
+    if (!selectedDistance) {
+      Swal.fire({
+        icon: "error",
+        title: "あれ？",
+        text: "検索を行うには距離を選択してください！"
+      });
+      return; // 검색 중단
+    }
+
     const queryParams = new URLSearchParams();
 
     if (selectedGenre) queryParams.append("genre", selectedGenre);
     if (selectedOptions.length > 0)
-      queryParams.append("options", selectedOptions.join(",")); // API 필드명으로 전달
+      queryParams.append("options", selectedOptions.join(","));
     if (selectedDistance) queryParams.append("distance", selectedDistance);
 
     navigate(`/result?${queryParams.toString()}`);
