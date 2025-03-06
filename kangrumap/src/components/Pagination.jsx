@@ -37,7 +37,9 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         <button
           key={page}
           className={`${styles.pageButton} ${page === currentPage ? styles.active : ""}`}
-          onClick={() => onPageChange(page)}
+          onClick={() => {
+            console.log("페이지 이동:", page);
+            onPageChange(page)}}
         >
           {page}
         </button>

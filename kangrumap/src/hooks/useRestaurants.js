@@ -23,9 +23,11 @@ const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
             ? options.map((option) => `${option}=あり`).join("&")
             : "";
 
+        const startIndex = (page - 1) * 10 + 1; // ✅ 페이지네이션을 반영한 start 값
+
         const url = `/api/hotpepper/gourmet/v1/?key=${API_KEY}&lat=${lat}&lng=${lng}&range=${apiRange}&genre=${
           genre || ""
-        }&${featureParams}&format=json`;
+        }&${featureParams}&format=json&start=${(page - 1) * 10 + 1}`;
 
         console.log("📡 요청 URL:", url);
         console.log(
@@ -36,7 +38,9 @@ const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
           "옵션:",
           options,
           "페이지:",
-          page
+          page,
+          "Start Index:",
+          startIndex
         );
 
         const response = await fetch(url, { signal });
@@ -68,7 +72,7 @@ const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
     fetchRestaurants();
 
     return () => {
-      controller.abort(); 
+      controller.abort();
     };
   }, [lat, lng, genre, distance, JSON.stringify(options), page]);
 

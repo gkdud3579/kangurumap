@@ -27,9 +27,9 @@ const Result = () => {
   } = useRestaurants(
     latLng?.lat,
     latLng?.lng,
-    selectedGenre, 
-    selectedDistance, 
-    selectedOptions, 
+    selectedGenre,
+    selectedDistance,
+    selectedOptions,
     currentPage
   );
 
@@ -37,13 +37,13 @@ const Result = () => {
   const totalPages = Math.ceil(resultsAvailable / 10);
 
   // 📌 디버깅을 위한 콘솔 로그 추가
-  useEffect(() => {
-    console.log("📍 현재 위도/경도:", latLng);
-    console.log("🍽️ API에서 받아온 음식점 리스트 (필터 전):", restaurants);
-    console.log("🎯 선택된 장르:", selectedGenre);
-    console.log("📏 선택된 거리:", selectedDistance);
-    console.log("✅ 선택된 옵션:", selectedOptions);
-  }, [latLng, restaurants, selectedGenre, selectedDistance, selectedOptions]);
+  //   useEffect(() => {
+  //     console.log("📍 현재 위도/경도:", latLng);
+  //     console.log("🍽️ API에서 받아온 음식점 리스트 (필터 전):", restaurants);
+  //     console.log("🎯 선택된 장르:", selectedGenre);
+  //     console.log("📏 선택된 거리:", selectedDistance);
+  //     console.log("✅ 선택된 옵션:", selectedOptions);
+  //   }, [latLng, restaurants, selectedGenre, selectedDistance, selectedOptions]);
 
   // 🍽️ 선택한 조건으로 음식점 필터링
   const filteredRestaurants = restaurants
@@ -69,6 +69,16 @@ const Result = () => {
   useEffect(() => {
     console.log("🔍 필터링 후 음식점 리스트:", filteredRestaurants);
   }, [filteredRestaurants]);
+
+  // 현재 페이지 확인
+  useEffect(() => {
+    console.log("📄 현재 페이지:", currentPage);
+  }, [currentPage]);
+
+  // 페이지 이동 시, 음식점 리스트 업데이트 확인
+  useEffect(() => {
+    console.log("🔍 업데이트된 restaurants 리스트:", restaurants);
+  }, [restaurants]);
 
   return (
     <div className={styles.result}>

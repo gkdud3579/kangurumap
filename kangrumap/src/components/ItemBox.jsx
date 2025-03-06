@@ -37,12 +37,12 @@ const ItemBox = ({
     }
   }, [location, latLng, setLatLng]);
 
-  useEffect(() => {
-    console.log("📍 ItemBox - 현재 위치:", currentLocation);
-    console.log("🎯 선택된 장르:", selectedGenre);
-    console.log("📏 선택된 거리:", selectedDistance);
-    console.log("✅ 선택된 옵션:", selectedOptions);
-  }, [currentLocation, selectedGenre, selectedDistance, selectedOptions]);
+//   useEffect(() => {
+//     console.log("📍 ItemBox - 현재 위치:", currentLocation);
+//     console.log("🎯 선택된 장르:", selectedGenre);
+//     console.log("📏 선택된 거리:", selectedDistance);
+//     console.log("✅ 선택된 옵션:", selectedOptions);
+//   }, [currentLocation, selectedGenre, selectedDistance, selectedOptions]);
 
   const { genres } = useGenres(); // 장르 목록 가져오기
  
@@ -93,7 +93,7 @@ const ItemBox = ({
           selectedOptions.length > 0 &&
           selectedOptions.map((option, index) => (
             <button key={index} className={styles.filterButton}>
-              {optionMappings[option] || option} {/* ✅ 매핑된 이름 표시 */}
+              {optionMappings[option] || option} {/* 매핑된 이름 표시 */}
             </button>
           ))}
       </div>
