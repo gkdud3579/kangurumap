@@ -65,6 +65,13 @@
   color: #a8a8a8;
 }
 
+.restaurantSubway {
+  color: $border-color;
+  margin-top: 60px;
+  font-size: 18px;
+  color: #a8a8a8;
+}
+
 .shareIcon {
   cursor: pointer;
   position: absolute;
@@ -83,7 +90,6 @@
   border-radius: 10px;
   flex-direction: column;
   justify-content: center;
-  //   margin: 0 10px 20px 10px;
   position: relative;
   padding-bottom: 50px;
 }
@@ -94,6 +100,8 @@
 
 .detailInfo p {
   margin: 10px 0 0 0;
+  font-size: 18px;
+  color: $black-color;
 }
 
 .filterButton {
