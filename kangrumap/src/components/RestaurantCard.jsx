@@ -1,8 +1,12 @@
 import styles from "../styles/Result.module.scss";
 
-const RestaurantCard = ({ restaurant }) => {
+const RestaurantCard = ({ restaurant, onClick }) => {
   return (
-    <div className={styles.restaurantCard}>
+    <div
+      className={styles.restaurantCard}
+      onClick={onClick}
+      style={{ cursor: "pointer" }}
+    >
       {/* 가게 이미지 */}
       <img
         src={restaurant.photo.pc.l}

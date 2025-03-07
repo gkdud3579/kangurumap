@@ -93,7 +93,7 @@
 }
 
 .detailInfo p {
-  margin: 0;
+  margin: 10px 0 0 0;
 }
 
 .filterButton {
@@ -101,5 +101,7 @@
   padding: 6px 12px;
   border-radius: 8px;
   border: none;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-right: 10px;
+  font-size: 15px;
 }

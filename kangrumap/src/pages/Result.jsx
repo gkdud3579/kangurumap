@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -12,6 +12,7 @@ import Pagination from "../components/Pagination";
 
 const Result = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const selectedGenres = queryParams.get("genre")?.split(",") || [];
   const selectedOptions = queryParams.get("options")?.split(",") || [];
@@ -104,7 +105,15 @@ const Result = () => {
           {restaurants.length > 0 ? (
             <>
               {restaurants.map((restaurant) => (
-                <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+                <RestaurantCard
+                  key={restaurant.id}
+                  restaurant={restaurant}
+                  onClick={() =>
+                    navigate(`/detail/${restaurant.id}`, {
+                      state: { restaurant },
+                    })
+                  } 
+                />
               ))}
 
               {/* Pagination 컴포넌트 적용 */}
