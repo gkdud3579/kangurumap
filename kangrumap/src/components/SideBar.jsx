@@ -97,6 +97,8 @@ const Sidebar = () => {
         </div>
       </div>
 
+      <div className={styles.divider}></div>
+
       <div className={styles.byOption}>
         <p>条件で検索</p>
         <div className={styles.optionLabels}>
@@ -112,6 +114,8 @@ const Sidebar = () => {
           ))}
         </div>
       </div>
+
+      <div className={styles.divider}></div>
 
       <div className={styles.byDistance}>
         <p>距離で検索</p>
