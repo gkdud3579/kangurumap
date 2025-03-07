@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 
 const API_KEY = import.meta.env.VITE_HOTPEPPER_API_KEY;
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// HTTP → HTTPS 변환 함수
+const ensureHttps = (url) =>
+  url?.startsWith("http://") ? url.replace("http://", "https://") : url;
 
 const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
   const [restaurants, setRestaurants] = useState([]);
@@ -52,8 +55,13 @@ const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
         const data = await response.json();
         console.log("🔹 API 응답 데이터:", JSON.stringify(data, null, 2));
 
-        if (data.results.shop.length > 0) {
-          setRestaurants(data.results.shop);
+        if (data.results?.shop?.length > 0) {
+          setRestaurants(
+            data.results.shop.map((shop) => ({
+              ...shop,
+              logo_image: ensureHttps(shop.logo_image), // HTTP → HTTPS 변환
+            }))
+          );
           setResultsAvailable(data.results.results_available);
         } else {
           console.warn("🚨 검색 결과가 없습니다.");
