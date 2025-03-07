@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 
 const API_KEY = import.meta.env.VITE_HOTPEPPER_API_KEY;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
   const [restaurants, setRestaurants] = useState([]);
@@ -23,11 +24,11 @@ const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
             ? options.map((option) => `${option}=あり`).join("&")
             : "";
 
-        const startIndex = (page - 1) * 10 + 1; // ✅ 페이지네이션을 반영한 start 값
+        const startIndex = (page - 1) * 10 + 1; // 페이지네이션을 반영한 start 값
 
-        const url = `/api/hotpepper/gourmet/v1/?key=${API_KEY}&lat=${lat}&lng=${lng}&range=${apiRange}&genre=${
+        const url = `${API_BASE_URL}/gourmet/v1/?key=${API_KEY}&lat=${lat}&lng=${lng}&range=${apiRange}&genre=${encodeURIComponent(
           genre || ""
-        }&${featureParams}&format=json&start=${(page - 1) * 10 + 1}`;
+        )}&${featureParams}&format=json&start=${startIndex}`;
 
         console.log("📡 요청 URL:", url);
         console.log(

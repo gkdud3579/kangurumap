@@ -1,16 +1,20 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
   server: {
-    proxy: {
-      "/api/hotpepper": {
-        target: "https://webservice.recruit.co.jp", // Hot Pepper API URL
-        changeOrigin: true, // CORS 우회
-        rewrite: (path) => path.replace(/^\/api\/hotpepper/, "/hotpepper"), // URL 재작성
-        secure: false, // HTTPS 관련 오류 방지
-      },
-    },
+    proxy:
+      mode === "development"
+        ? {
+            "/api/hotpepper": {
+              target: "https://webservice.recruit.co.jp",
+              changeOrigin: true,
+              rewrite: (path) =>
+                path.replace(/^\/api\/hotpepper/, "/hotpepper"),
+              secure: false,
+            },
+          }
+        : {}, // 배포 환경에서는 프록시를 사용하지 않음
   },
-});
+}));

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 const API_KEY = import.meta.env.VITE_HOTPEPPER_API_KEY;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const useGenres = () => {
   const [genres, setGenres] = useState([]);
@@ -13,8 +14,8 @@ const useGenres = () => {
         //   `https://webservice.recruit.co.jp/hotpepper/genre/v1/?key=${API_KEY}&format=json`
         // );
         const response = await fetch(
-          `/api/hotpepper/genre/v1/?key=${API_KEY}&format=json`
-        ); // 변경된 API 경로 사용
+          `${API_BASE_URL}/genre/v1/?key=${API_KEY}&format=json`
+        );
         const data = await response.json();
 
         if (data.results.genre) {
