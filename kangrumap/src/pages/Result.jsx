@@ -47,10 +47,10 @@ const Result = () => {
 
         // 2️⃣ 옵션 필터링: API에서 받은 데이터와 비교
         const optionsMatch = selectedOptions.length
-          ? selectedOptions.every(
-              (option) =>
-                restaurant[option] === "あり" || restaurant[option] === "利用可"
-            )
+          ? selectedOptions.every((option) => {
+              const apiOption = restaurant[option]?.trim().toLowerCase(); // 공백 제거 및 소문자 변환
+              return apiOption === "あり" || apiOption === "利用可"; // 정확한 값 비교
+            })
           : true;
 
         return genreMatch && optionsMatch;

@@ -1,8 +1,10 @@
+import { useRef } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styles from "../styles/Detail.module.scss";
 import ItemBox from "../components/ItemBox";
+import html2canvas from "html2canvas";
 
 const Detail = () => {
   const location = useLocation();
@@ -26,14 +28,44 @@ const Detail = () => {
     pet: "ペット可",
   };
 
-  if (!restaurant) {
-    return <p>レストランの詳細情報がありません。</p>; // 데이터가 없을 경우 예외 처리
-  }
+  const captureRef = useRef(null);
+
+  //스크린샷 캡쳐함수
+  const handleScreenshot = async () => {
+    console.log("📸 스크린샷 버튼 클릭됨");
+
+    if (!captureRef.current) {
+      console.error("❌ 캡처할 요소를 찾을 수 없음");
+      return;
+    }
+
+    try {
+      const canvas = await html2canvas(captureRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null,
+      });
+
+      const image = canvas.toDataURL("image/png");
+
+      // 🖼 자동 다운로드 기능 추가
+      const link = document.createElement("a");
+      link.href = image;
+      link.download = "screenshot.png";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      console.log("📸 캡처 및 다운로드 성공!");
+    } catch (error) {
+      console.error("📸 스크린샷 캡처 오류:", error);
+    }
+  };
 
   console.log("🔍 레스토랑 데이터:", restaurant);
 
   return (
-    <div className={styles.detail}>
+    <div className={styles.detail} ref={captureRef}>
       <Header />
       <ItemBox setLatLng={() => {}} />
       <div className={styles.detailContent}>
@@ -53,7 +85,11 @@ const Detail = () => {
             </div>
             <p className={styles.restaurantCatch}>{restaurant.catch}</p>
             <p className={styles.restaurantSubway}>{restaurant.access}</p>
-            <span className={`${styles.shareIcon} material-symbols-outlined`}>
+            <span
+              className={`${styles.shareIcon} material-symbols-outlined`}
+              onClick={handleScreenshot}
+              style={{ cursor: "pointer" }}
+            >
               share
             </span>
           </div>
