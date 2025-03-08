@@ -1,11 +1,43 @@
+@import "./variables";
+
 .header {
-    display: flex;
-    align-items: center;
-    background-color: #3D3D3D;
-  }
-  
-  .logo {
-    width: 60px;
-    height: auto;
-  }
-  
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: #3d3d3d;
+  width: 100%;
+  height: 60px;
+}
+
+.withBackButton {
+  justify-content: space-between;
+}
+
+.logoContainer {
+  flex-grow: 1;
+}
+
+.centeredLogo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logo {
+  width: 60px;
+  height: auto;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: $white-color;
+  left: 20px;
+  margin-left: 10px;
+}
+
+.backButton:hover {
+  opacity: 0.7;
+}

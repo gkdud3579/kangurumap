@@ -37,15 +37,6 @@ const Result = () => {
   // 총 페이지 수 계산 (10개씩 나누기)
   const totalPages = Math.ceil(resultsAvailable / 10);
 
-  // 📌 디버깅을 위한 콘솔 로그 추가
-  //   useEffect(() => {
-  //     console.log("📍 현재 위도/경도:", latLng);
-  //     console.log("🍽️ API에서 받아온 음식점 리스트 (필터 전):", restaurants);
-  //     console.log("🎯 선택된 장르:", selectedGenre);
-  //     console.log("📏 선택된 거리:", selectedDistance);
-  //     console.log("✅ 선택된 옵션:", selectedOptions);
-  //   }, [latLng, restaurants, selectedGenre, selectedDistance, selectedOptions]);
-
   // 🍽️ 선택한 조건으로 음식점 필터링
   const filteredRestaurants = restaurants
     ? restaurants.filter((restaurant) => {
@@ -112,7 +103,7 @@ const Result = () => {
                     navigate(`/detail/${restaurant.id}`, {
                       state: { restaurant },
                     })
-                  } 
+                  }
                 />
               ))}
 
