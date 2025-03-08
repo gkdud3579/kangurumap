@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 const API_KEY = import.meta.env.VITE_HOTPEPPER_API_KEY;
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 // HTTP 이미지 URL을 HTTPS로 변환하는 함수 추가
 const ensureHttps = (url) =>
   url?.startsWith("http://") ? url.replace("http://", "https://") : url;

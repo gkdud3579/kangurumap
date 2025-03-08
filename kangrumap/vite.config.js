@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => ({
               changeOrigin: true,
               rewrite: (path) =>
                 path.replace(/^\/api\/hotpepper/, "/hotpepper"),
-              secure: true, // ✅ HTTPS 강제
+              secure: true, 
             },
           }
         : {}, // 배포 환경에서는 프록시를 사용하지 않음

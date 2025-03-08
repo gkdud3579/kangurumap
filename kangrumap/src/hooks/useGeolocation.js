@@ -6,7 +6,7 @@ const useGeolocation = () => {
 
   useEffect(() => {
     if (!navigator.geolocation) {
-      setError("Geolocation을 지원하지 않는 브라우저입니다.");
+      setError("Geolocationをサポートしていないブラウザです。");
       return;
     }
 
@@ -18,7 +18,7 @@ const useGeolocation = () => {
         });
       },
       (err) => {
-        setError(`위치 정보를 가져올 수 없습니다: ${err.message}`);
+        setError(`位置情報を取得できません: ${err.message}`);
       },
       {
         enableHighAccuracy: true,

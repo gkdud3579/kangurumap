@@ -79,7 +79,7 @@ const Detail = () => {
                   (restaurant[key] === "あり" ||
                     restaurant[key] === "利用可" ||
                     restaurant[key] === "全面禁煙" ||
-                    restaurant[key] === "お子様連れ歓迎") // API 데이터와 일치하는 값 확인
+                    restaurant[key] === "お子様連れ歓迎")
               )
               .map((key) => (
                 <button key={key} className={styles.filterButton}>
