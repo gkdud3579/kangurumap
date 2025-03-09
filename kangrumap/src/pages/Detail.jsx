@@ -12,7 +12,7 @@ const Detail = () => {
   const captureRef = useRef(null);
 
   if (!restaurant) {
-    return <p>レストランの詳細情報がありません。</p>; // ❌ return은 이후에 처리
+    return <p>レストランの詳細情報がありません。</p>;
   }
 
   const conditionMappings = {
