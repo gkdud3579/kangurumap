@@ -16,13 +16,20 @@ const Result = () => {
   const queryParams = new URLSearchParams(location.search);
 
   // 🔹 URL クエリパラメータから検索条件を取得
-  const selectedGenres = queryParams.get("genre")?.split(",") || [];
-  const selectedOptions = queryParams.get("options")?.split(",") || [];
-  const selectedDistance = queryParams.get("distance");
+  const selectedGenresFromQuery = queryParams.get("genre")?.split(",") || [];
+  const selectedOptionsFromQuery = queryParams.get("options")?.split(",") || [];
+  const selectedDistanceFromQuery = queryParams.get("distance");
 
   // 🔹 位置情報と現在のページを管理
   const [latLng, setLatLng] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedGenres, setSelectedGenres] = useState(selectedGenresFromQuery);
+  const [selectedOptions, setSelectedOptions] = useState(
+    selectedOptionsFromQuery
+  );
+  const [selectedDistance, setSelectedDistance] = useState(
+    selectedDistanceFromQuery
+  );
 
   // 🔹 API からレストランデータを取得
   const {
@@ -40,6 +47,42 @@ const Result = () => {
 
   // 🔹 総ページ数の計算（1ページあたり10件）
   const totalPages = Math.ceil(resultsAvailable / 10);
+
+  // 🔹 検索条件の復元 & 新しい検索時に localStorage 更新
+  useEffect(() => {
+    console.log("🔄 検索条件の変更を検知:", location.search);
+
+    const queryParams = new URLSearchParams(location.search);
+    const savedSearchParams = localStorage.getItem("searchParams");
+
+    if (location.state?.fromDetail && savedSearchParams) {
+      console.log("🔄 Detail ページから戻りました。検索条件を復元します。");
+
+      const searchState = JSON.parse(savedSearchParams);
+      setSelectedGenres(searchState.selectedGenres || []);
+      setSelectedOptions(searchState.selectedOptions || []);
+      setSelectedDistance(searchState.selectedDistance || "");
+      setCurrentPage(
+        location.state.prevPage ? Number(location.state.prevPage) : 1
+      );
+    } else {
+      console.log("📡 新しい検索を実行: ", queryParams.toString());
+
+      setSelectedGenres(queryParams.get("genre")?.split(",") || []);
+      setSelectedOptions(queryParams.get("options")?.split(",") || []);
+      setSelectedDistance(queryParams.get("distance") || "");
+
+      // 新しい検索条件を 'local Storage' に保存
+      const searchParams = {
+        selectedGenres: queryParams.get("genre")?.split(",") || [],
+        selectedOptions: queryParams.get("options")?.split(",") || [],
+        selectedDistance: queryParams.get("distance") || "",
+      };
+      localStorage.setItem("searchParams", JSON.stringify(searchParams));
+      localStorage.setItem("currentPage", 1); // 新しい検索なので最初のページに初期化
+      setCurrentPage(1);
+    }
+  }, [location.search, location.state?.fromDetail]);
 
   // 🍽️ 選択した条件でレストランをフィルタリング
   const filteredRestaurants = restaurants
@@ -60,21 +103,6 @@ const Result = () => {
         return genreMatch && optionsMatch;
       })
     : [];
-
-  // 🎯 フィルタリング後のレストランリストを確認
-  useEffect(() => {
-    console.log("🔍 フィルタリング後のレストランリスト:", filteredRestaurants);
-  }, [filteredRestaurants]);
-
-  // 📄 現在のページを確認
-  useEffect(() => {
-    console.log("📄 現在のページ:", currentPage);
-  }, [currentPage]);
-
-  // 🔄 ページ変更時にレストランリストの更新を確認
-  useEffect(() => {
-    console.log("🔍 更新されたレストランリスト:", restaurants);
-  }, [restaurants]);
 
   return (
     <div className={styles.result}>
@@ -98,9 +126,9 @@ const Result = () => {
           )}
 
           {/* 🔹 レストランリストの表示 */}
-          {restaurants.length > 0 ? (
+          {filteredRestaurants.length > 0 ? (
             <>
-              {restaurants.map((restaurant) => (
+              {filteredRestaurants.map((restaurant) => (
                 <RestaurantCard
                   key={restaurant.id}
                   restaurant={restaurant}

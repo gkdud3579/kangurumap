@@ -29,7 +29,10 @@ const Header = () => {
       {/* Logo */}
       <Link
         to="/"
-        onClick={() => navigate("/", { replace: true })} // ✅ 로고 클릭 시 강제 리렌더링
+        onClick={() => {
+          localStorage.removeItem("searchParams");
+          localStorage.removeItem("currentPage");
+        }}
         className={`${styles.logoContainer} ${
           isDetailPage ? styles.centeredLogo : ""
         }`}

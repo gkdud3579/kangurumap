@@ -71,8 +71,9 @@ const Sidebar = () => {
       queryParams.append("options", selectedOptions.join(","));
     if (selectedDistance) queryParams.append("distance", selectedDistance);
 
-    // `Result` ページへ遷移し、フィルターを適用
-    navigate(`/result?${queryParams.toString()}`);
+    console.log("🔎 検索パラメータ:", queryParams.toString()); // ✅ 검색 조건 확인
+
+    navigate(`/result?${queryParams.toString()}`); // ✅ 이동 확인
   };
 
   return (
