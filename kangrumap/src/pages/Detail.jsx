@@ -8,10 +8,13 @@ import html2canvas from "html2canvas";
 
 const Detail = () => {
   const location = useLocation();
-  const restaurant = location.state?.restaurant; // 전달된 데이터 가져오기
+  const restaurant = location.state?.restaurant;
+  const captureRef = useRef(null);
+
   if (!restaurant) {
-    return <p>レストランの詳細情報がありません。</p>; // 데이터가 없을 경우 예외 처리
+    return <p>レストランの詳細情報がありません。</p>; // ❌ return은 이후에 처리
   }
+
   const conditionMappings = {
     wifi: "WiFi",
     card: "カード払い",
@@ -27,8 +30,6 @@ const Detail = () => {
     midnight: "23時以降も営業",
     pet: "ペット可",
   };
-
-  const captureRef = useRef(null);
 
   //스크린샷 캡쳐함수
   const handleScreenshot = async () => {
