@@ -1,30 +1,35 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "../styles/Result.module.scss";
 import useGenres from "../hooks/useGenres";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
+/**
+ * Sidebar コンポーネント
+ * - レストラン検索のフィルター（ジャンル、オプション、距離）を設定
+ * - ユーザーの選択内容をもとに `/result` ページへ移動
+ */
 const Sidebar = () => {
   const navigate = useNavigate();
   const { genres, error: genreError } = useGenres();
 
-  // 🔹 선택된 필터 상태 관리
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [selectedDistance, setSelectedDistance] = useState(null);
+  // 🔹 フィルターの選択状態を管理
+  const [selectedGenres, setSelectedGenres] = useState([]); // 選択したジャンル
+  const [selectedOptions, setSelectedOptions] = useState([]); // 選択したオプション
+  const [selectedDistance, setSelectedDistance] = useState(null); // 選択した距離
 
-  // 🔹 장르 선택 (복수 선택 가능)
+  // 🔹 ジャンルの選択（複数選択可）
   const handleGenreClick = (genre) => {
     setSelectedGenres(
       (prevGenres) =>
         prevGenres.includes(genre.code)
-          ? prevGenres.filter((g) => g !== genre.code) // 선택 해제
-          : [...prevGenres, genre.code] // 선택 추가
+          ? prevGenres.filter((g) => g !== genre.code) // 解除
+          : [...prevGenres, genre.code] // 追加
     );
   };
 
-  // 🔹 옵션 선택
+  // 🔹 オプションの選択（例: WiFi, 禁煙席 など）
   const optionMappings = {
     英語メニュー: "english",
     WiFi: "wifi",
@@ -43,12 +48,12 @@ const Sidebar = () => {
     );
   };
 
-  // 🔹 거리 선택
+  // 🔹 検索距離の選択
   const handleDistanceClick = (distance) => {
     setSelectedDistance(distance);
   };
 
-  // 🔹 검색 버튼 클릭 시 필터링된 검색 결과 적용
+  // 🔹 検索ボタンをクリックした時、フィルターを適用して検索結果ページへ遷移
   const handleSearch = () => {
     if (!selectedDistance) {
       Swal.fire({
@@ -66,11 +71,13 @@ const Sidebar = () => {
       queryParams.append("options", selectedOptions.join(","));
     if (selectedDistance) queryParams.append("distance", selectedDistance);
 
+    // `Result` ページへ遷移し、フィルターを適用
     navigate(`/result?${queryParams.toString()}`);
   };
 
   return (
     <div className={styles.sideBar}>
+      {/* 🍽 料理・ジャンル選択 */}
       <div className={styles.byCategory}>
         <h1 className={styles.titleCategory}>料理・ジャンルで検索</h1>
         <p className={styles.descriptionCategory}>
@@ -99,6 +106,7 @@ const Sidebar = () => {
 
       <div className={styles.divider}></div>
 
+      {/* ✅ オプション選択 */}
       <div className={styles.byOption}>
         <p>条件で検索</p>
         <div className={styles.optionLabels}>
@@ -117,6 +125,7 @@ const Sidebar = () => {
 
       <div className={styles.divider}></div>
 
+      {/* 📏 距離選択 */}
       <div className={styles.byDistance}>
         <p>距離で検索</p>
         <div className={styles.buttonsDistance}>
@@ -134,6 +143,7 @@ const Sidebar = () => {
         </div>
       </div>
 
+      {/* 🔍 検索ボタン */}
       <button className={styles.searchButton} onClick={handleSearch}>
         検索
       </button>

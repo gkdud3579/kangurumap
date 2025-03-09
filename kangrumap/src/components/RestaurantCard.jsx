@@ -1,5 +1,13 @@
 import styles from "../styles/Result.module.scss";
 
+/**
+ * RestaurantCard コンポーネント
+ * - レストランの情報をカード形式で表示
+ * - クリックすると詳細ページへ遷移
+ *
+ * @param {Object} restaurant - レストランのデータ
+ * @param {Function} onClick - クリック時のイベントハンドラー
+ */
 const RestaurantCard = ({ restaurant, onClick }) => {
   return (
     <div
@@ -7,14 +15,14 @@ const RestaurantCard = ({ restaurant, onClick }) => {
       onClick={onClick}
       style={{ cursor: "pointer" }}
     >
-      {/* 가게 이미지 */}
+      {/* 🏪 レストランの画像 */}
       <img
         src={restaurant.photo.pc.l}
         alt={restaurant.name}
         className={styles.restaurantImage}
       />
 
-      {/* 가게 정보 */}
+      {/* ℹ️ レストラン情報 */}
       <div className={styles.restaurantInfo}>
         <div className={styles.restaurantTitle}>
           <h2 className={styles.restaurantName}>{restaurant.name}</h2>

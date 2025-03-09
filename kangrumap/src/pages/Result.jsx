@@ -14,13 +14,17 @@ const Result = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
+
+  // 🔹 URL クエリパラメータから検索条件を取得
   const selectedGenres = queryParams.get("genre")?.split(",") || [];
   const selectedOptions = queryParams.get("options")?.split(",") || [];
   const selectedDistance = queryParams.get("distance");
 
+  // 🔹 位置情報と現在のページを管理
   const [latLng, setLatLng] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
+  // 🔹 API からレストランデータを取得
   const {
     restaurants,
     resultsAvailable,
@@ -34,22 +38,22 @@ const Result = () => {
     currentPage
   );
 
-  // 총 페이지 수 계산 (10개씩 나누기)
+  // 🔹 総ページ数の計算（1ページあたり10件）
   const totalPages = Math.ceil(resultsAvailable / 10);
 
-  // 🍽️ 선택한 조건으로 음식점 필터링
+  // 🍽️ 選択した条件でレストランをフィルタリング
   const filteredRestaurants = restaurants
     ? restaurants.filter((restaurant) => {
-        // 1️⃣ 장르 필터링: 선택된 장르가 있을 때만 적용
-        const genreMatch = selectedGenres
-          ? restaurant.genre && restaurant.genre.code === selectedGenres
+        // 1️⃣ ジャンルフィルタリング（選択されている場合のみ適用）
+        const genreMatch = selectedGenres.length
+          ? selectedGenres.includes(restaurant.genre?.code)
           : true;
 
-        // 2️⃣ 옵션 필터링: API에서 받은 데이터와 비교
+        // 2️⃣ オプションフィルタリング（API からのデータと比較）
         const optionsMatch = selectedOptions.length
           ? selectedOptions.every((option) => {
-              const apiOption = restaurant[option]?.trim().toLowerCase(); // 공백 제거 및 소문자 변환
-              return apiOption === "あり" || apiOption === "利用可"; // 정확한 값 비교
+              const apiOption = restaurant[option]?.trim().toLowerCase(); // 空白を削除し、小文字変換
+              return apiOption === "あり" || apiOption === "利用可"; // 正確な値を比較
             })
           : true;
 
@@ -57,19 +61,19 @@ const Result = () => {
       })
     : [];
 
-  // 🎯 필터링 후 남은 음식점 리스트 확인
+  // 🎯 フィルタリング後のレストランリストを確認
   useEffect(() => {
-    console.log("🔍 필터링 후 음식점 리스트:", filteredRestaurants);
+    console.log("🔍 フィルタリング後のレストランリスト:", filteredRestaurants);
   }, [filteredRestaurants]);
 
-  // 현재 페이지 확인
+  // 📄 現在のページを確認
   useEffect(() => {
-    console.log("📄 현재 페이지:", currentPage);
+    console.log("📄 現在のページ:", currentPage);
   }, [currentPage]);
 
-  // 페이지 이동 시, 음식점 리스트 업데이트 확인
+  // 🔄 ページ変更時にレストランリストの更新を確認
   useEffect(() => {
-    console.log("🔍 업데이트된 restaurants 리스트:", restaurants);
+    console.log("🔍 更新されたレストランリスト:", restaurants);
   }, [restaurants]);
 
   return (
@@ -78,6 +82,7 @@ const Result = () => {
       <div className={styles.resultMain}>
         <Sidebar />
         <div className={styles.resultCard}>
+          {/* 🔹 現在の検索条件を表示 */}
           <ItemBox
             setLatLng={setLatLng}
             latLng={latLng}
@@ -87,12 +92,12 @@ const Result = () => {
           />
           <p className={styles.total}>検索結果 {resultsAvailable}件</p>
 
-          {/*  에러 메시지 출력 */}
+          {/* 🔴 エラーメッセージの表示 */}
           {restaurantError && (
             <p className={styles.error}>エラー: {restaurantError}</p>
           )}
 
-          {/* 필터링된 음식점 출력 */}
+          {/* 🔹 レストランリストの表示 */}
           {restaurants.length > 0 ? (
             <>
               {restaurants.map((restaurant) => (
@@ -107,7 +112,7 @@ const Result = () => {
                 />
               ))}
 
-              {/* Pagination 컴포넌트 적용 */}
+              {/* 🔹 ページネーションの適用 */}
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}

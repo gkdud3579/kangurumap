@@ -3,7 +3,7 @@ import Home from "./pages/Home"; // 홈 페이지
 import Result from "./pages/Result"; // 검색 결과 페이지
 import Detail from "./pages/Detail"; // 상세 페이지
 import NotFound from "./pages/NotFound"; // 404 에러 페이지
-import "./App.css";
+
 
 function App() {
   return (

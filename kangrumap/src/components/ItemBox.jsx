@@ -4,6 +4,16 @@ import styles from "../styles/Result.module.scss";
 import useGeolocation from "../hooks/useGeolocation";
 import useReverseGeocoding from "../hooks/useReverseGeocoding";
 
+/**
+ * ItemBox コンポーネント
+ * - 現在位置情報を取得し、検索条件(ジャンル・距離・オプション)を表示する
+ *
+ * @param {Function} setLatLng - 緯度/経度情報を親コンポーネントへ渡す関数
+ * @param {Object} latLng - 現在の緯度/経度情報
+ * @param {Array} selectedGenres - 選択されたジャンルのリスト
+ * @param {String} selectedDistance - 選択された距離
+ * @param {Array} selectedOptions - 選択されたオプションのリスト
+ */
 const ItemBox = ({
   setLatLng,
   latLng,
@@ -11,43 +21,39 @@ const ItemBox = ({
   selectedDistance = "",
   selectedOptions = [],
 }) => {
+  // 📍 ユーザーの位置情報を取得するカスタムフック
   const { location, error: locationError } = useGeolocation();
+  // 📍 緯度/経度を住所に変換するカスタムフック
   const { address, error: addressError } = useReverseGeocoding(
     location?.lat,
     location?.lng
   );
 
-  // 위도/경도를 주소로 변환
+  // 🏠 現在の住所を管理する状態
   const [currentLocation, setCurrentLocation] = useState(null);
 
+  // 🎯 住所が取得されたら状態を更新
   useEffect(() => {
     if (address) {
       setCurrentLocation(address);
     }
   }, [address]);
 
-  // 현재 위치 정보가 변경될 때 `Result.jsx`로 전달
+  // 📍 位置情報が変更された場合、親コンポーネント(Result.jsx)に伝達
   useEffect(() => {
     if (
       location &&
       (!latLng || latLng.lat !== location.lat || latLng.lng !== location.lng)
     ) {
-      console.log("📍 ItemBox에서 전송하는 위치:", location);
+      console.log("📍 ItemBoxで送信する位置:", location);
       setLatLng(location);
     }
   }, [location, latLng, setLatLng]);
 
-  //   useEffect(() => {
-  //     console.log("📍 ItemBox - 현재 위치:", currentLocation);
-  //     console.log("🎯 선택된 장르:", selectedGenre);
-  //     console.log("📏 선택된 거리:", selectedDistance);
-  //     console.log("✅ 선택된 옵션:", selectedOptions);
-  //   }, [currentLocation, selectedGenre, selectedDistance, selectedOptions]);
-
-  // 장르 목록 가져오기
+  // 🍽️ ジャンルリストを取得
   const { genres } = useGenres();
 
-  // 옵션명을 일본어로 변환하는 매핑 테이블
+  // 🏷️ オプション名のマッピングテーブル
   const optionMappings = {
     english: "英語メニュー",
     wifi: "WiFi",
@@ -58,7 +64,7 @@ const ItemBox = ({
   return (
     <div className={styles.itemBox}>
       <div className={styles.locationLine}>
-        {/* 위치 정보 표시 */}
+        {/* 📍 位置情報の表示 */}
         {currentLocation ? (
           <p className={styles.location}>📍 {currentLocation}</p>
         ) : addressError || locationError ? (
@@ -70,9 +76,9 @@ const ItemBox = ({
         )}
       </div>
 
-      {/* 선택된 조건 버튼 표시 */}
+      {/* 🔍 選択された検索条件を表示 */}
       <div className={styles.selectedButtons}>
-        {/* 선택된 장르 버튼 */}
+        {/* 🍽️ 選択されたジャンルボタン */}
         {selectedGenres.length > 0 ? (
           selectedGenres.map((genreCode) => {
             const genre = genres.find((g) => g.code === genreCode);
@@ -86,19 +92,20 @@ const ItemBox = ({
           <button className={styles.filterButton}>全てのグルメ</button>
         )}
 
-        {/* 거리 버튼 */}
+        {/* 📏 選択された距離ボタン */}
         {selectedDistance && (
           <button className={styles.filterButton}>
             {selectedDistance}m 以内
           </button>
         )}
 
-        {/* 옵션 버튼 (옵션이 배열이고 1개 이상 있을 때만 표시) */}
+        {/* ⚙️ 選択されたオプションボタン */}
         {Array.isArray(selectedOptions) &&
           selectedOptions.length > 0 &&
           selectedOptions.map((option, index) => (
             <button key={index} className={styles.filterButton}>
-              {optionMappings[option] || option} {/* 매핑된 이름 표시 */}
+              {optionMappings[option] || option}{" "}
+              {/* マッピングされた名前を表示 */}
             </button>
           ))}
       </div>

@@ -8,7 +8,7 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      {/* 뒤로 가기 버튼 (Detail 페이지에서만 보이도록) */}
+      {/* 戻るボタン (Detailページでのみ見えるように) */}
       {isDetailPage && (
         <button
           className={styles.backButton}
@@ -26,7 +26,7 @@ const Header = () => {
         </button>
       )}
 
-      {/* 로고 */}
+      {/* Logo */}
       <Link
         to="/"
         onClick={() => navigate("/", { replace: true })} // ✅ 로고 클릭 시 강제 리렌더링

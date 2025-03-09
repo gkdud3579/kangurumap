@@ -12,31 +12,32 @@ import "sweetalert2/dist/sweetalert2.min.css";
 const Home = () => {
   const navigate = useNavigate();
 
-  // 위치 정보 가져오기
+  // 📍 現在地の取得
   const { location, error: locationError } = useGeolocation();
   const { address, error: addressError } = useReverseGeocoding(
     location?.lat,
     location?.lng
   );
 
-  // 선택된 조건을 저장할 상태
-  const [selectedGenres, setSelectedGenres] = useState([]); // 복수 선택을 위해 배열 사용
-  const [selectedOptions, setSelectedOptions] = useState([]); // 옵션 (WiFi, 카드 결제 등)
-  const [selectedDistance, setSelectedDistance] = useState(null);
+  // 🔹 選択された検索条件（ジャンル・オプション・距離）
+  const [selectedGenres, setSelectedGenres] = useState([]); // ジャンル（複数選択可能）
+  const [selectedOptions, setSelectedOptions] = useState([]); // オプション（WiFi、カード決済など）
+  const [selectedDistance, setSelectedDistance] = useState(null); // 検索距離
 
-  // 위치 정보를 저장할 상태
+  // 🔹 現在の住所情報を保存する状態
   const [currentLocation, setCurrentLocation] = useState(null);
 
-  // 장르 정보 가져오기
+  // 🔹 ジャンル情報を取得
   const { genres, error: genreError } = useGenres();
 
-  // 위치 정보 업데이트
+  // 住所情報が取得されたら state を更新
   useEffect(() => {
     if (address) {
       setCurrentLocation(address);
     }
   }, [address]);
 
+  // 🔹 オプションの API パラメータマッピング
   const optionMappings = {
     英語メニュー: "english",
     WiFi: "wifi",
@@ -44,38 +45,38 @@ const Home = () => {
     禁煙席: "non_smoking",
   };
 
-  // 장르 버튼 클릭 시 선택한 장르 저장
+  // 🔹 ジャンルボタンクリック時の処理（選択・解除）
   const handleGenreClick = (genre) => {
     setSelectedGenres(
       (prevGenres) =>
         prevGenres.includes(genre.code)
-          ? prevGenres.filter((g) => g !== genre.code) // 클릭 시 제거
-          : [...prevGenres, genre.code] // 클릭 시 추가
+          ? prevGenres.filter((g) => g !== genre.code) // クリック時に削除
+          : [...prevGenres, genre.code] // クリック時に追加
     );
   };
 
-  //옵션 체크박스 클릭 시 선택된 옵션 업데이트
+  // 🔹 オプションチェックボックスの処理
   const handleOptionChange = (option) => {
-    const apiField = optionMappings[option]; // UI 옵션명을 API 필드명으로 변환
+    const apiField = optionMappings[option]; // UI のオプション名を API のパラメータに変換
     if (!apiField) return;
 
-    console.log(`🔹 옵션 선택: ${option} (API 필드: ${apiField})`);
+    console.log(`🔹 オプション選択: ${option} (API フィールド: ${apiField})`);
 
     setSelectedOptions(
       (prevOptions) =>
         prevOptions.includes(apiField)
-          ? prevOptions.filter((o) => o !== apiField) // 선택 해제 시 제거
-          : [...prevOptions, apiField] // 선택 시 추가
+          ? prevOptions.filter((o) => o !== apiField) // 選択解除時に削除
+          : [...prevOptions, apiField] // 選択時に追加
     );
   };
 
-  // 거리 버튼 클릭 시 선택된 거리 저장
+  // 🔹 距離ボタンクリック時の処理
   const handleDistanceClick = (distance) => {
-    console.log("🔹 거리 선택:", distance);
+    console.log("🔹 距離選択:", distance);
     setSelectedDistance(distance);
   };
 
-  // "検索" 버튼 클릭 시 선택한 조건을 URL 쿼리로 전달하여 `Result.jsx`로 이동
+  // 🔹 検索ボタンをクリック時に `Result.jsx` へ移動
   const handleSearch = () => {
     if (!selectedDistance) {
       Swal.fire({
@@ -89,7 +90,7 @@ const Home = () => {
     const queryParams = new URLSearchParams();
 
     if (selectedGenres.length > 0)
-      queryParams.append("genre", selectedGenres.join(",")); // 복수 선택된 장르를 콤마(,)로 구분
+      queryParams.append("genre", selectedGenres.join(",")); // 選択したジャンルをカンマ(,)区切りで保存
     if (selectedOptions.length > 0)
       queryParams.append("options", selectedOptions.join(","));
     if (selectedDistance) queryParams.append("distance", selectedDistance);
@@ -102,10 +103,10 @@ const Home = () => {
       <Header />
       <main className={styles.mainContent}>
         <div className={styles.backgroundContainer}>
-          {/* 배경 이미지 적용 */}
+          {/* 背景画像 */}
           <div className={styles.backgroundImage}></div>
 
-          {/* 내용 부분 */}
+          {/* メインコンテンツ */}
           <div className={styles.content}>
             <div className={styles.logoImageSection}>
               <img src="/logo.png" alt="Logo" className={styles.logo} />
@@ -118,7 +119,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* 📍 현재 위치 */}
+        {/* 📍 現在地の表示 */}
         <div className={styles.locationLine}>
           {currentLocation ? (
             <p className={styles.location}>📍 {currentLocation}</p>
@@ -129,16 +130,18 @@ const Home = () => {
           ) : (
             <p className={styles.location}>位置情報を取得中...</p>
           )}
-          {/* 🔍 検索 버튼 */}
+          {/* 🔍 検索ボタン */}
           <button className={styles.searchButton} onClick={handleSearch}>
             検索
           </button>
         </div>
 
-        {/* 🍽 料理・ジャンル 선택 */}
+        {/* 🍽 料理・ジャンルの選択 */}
         <div className={styles.byCategory}>
           <h1 className={styles.titleCategory}>料理・ジャンルで検索</h1>
-          <p className={styles.descriptionCategory}>✏️ 複数選択可能、未選択時に全体選択で適用されます。</p>
+          <p className={styles.descriptionCategory}>
+            ✏️ 複数選択可能、未選択時に全体選択で適用されます。
+          </p>
           <div className={styles.buttonsCategory}>
             {genreError ? (
               <p className={styles.error}>エラー: {genreError}</p>
@@ -147,7 +150,7 @@ const Home = () => {
                 <button
                   key={genre.code}
                   className={`${styles.buttonCategory} ${
-                    selectedGenres.includes(genre.code) ? styles.selected : "" // 복수 선택 가능하도록 수정
+                    selectedGenres.includes(genre.code) ? styles.selected : ""
                   }`}
                   onClick={() => handleGenreClick(genre)}
                 >
@@ -160,7 +163,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* 옵션 선택 */}
+        {/* 🔹 条件（オプション）選択 */}
         <div className={styles.byOption}>
           <p>条件で検索</p>
           <div className={styles.optionLabels}>
@@ -177,7 +180,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* 🔍 거리 선택 */}
+        {/* 🔍 距離選択 */}
         <div className={styles.byDistance}>
           <p>距離で検索</p>
           <div className={styles.buttonsDistance}>

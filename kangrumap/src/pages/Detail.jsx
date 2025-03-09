@@ -8,13 +8,14 @@ import html2canvas from "html2canvas";
 
 const Detail = () => {
   const location = useLocation();
-  const restaurant = location.state?.restaurant;
-  const captureRef = useRef(null);
+  const restaurant = location.state?.restaurant; // レストラン情報を取得
+  const captureRef = useRef(null); // スクリーンショットを取るための参照
 
   if (!restaurant) {
-    return <p>レストランの詳細情報がありません。</p>;
+    return <p>レストランの詳細情報がありません。</p>; // レストラン情報がない場合の処理
   }
 
+  // 🔹 レストランのオプションマッピング
   const conditionMappings = {
     wifi: "WiFi",
     card: "カード払い",
@@ -31,39 +32,41 @@ const Detail = () => {
     pet: "ペット可",
   };
 
-  //스크린샷 캡쳐함수
+  // 📸 スクリーンショットをキャプチャする関数
   const handleScreenshot = async () => {
-    console.log("📸 스크린샷 버튼 클릭됨");
+    console.log("📸 スクリーンショットボタンがクリックされました。");
 
     if (!captureRef.current) {
-      console.error("❌ 캡처할 요소를 찾을 수 없음");
+      console.error("❌ キャプチャする要素が見つかりません。");
       return;
     }
 
     try {
       const canvas = await html2canvas(captureRef.current, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: null,
+        scale: 2, // 画像の解像度を2倍に設定
+        useCORS: true, // クロスオリジン対応
+        backgroundColor: null, // 背景を透明にする
       });
 
-      const image = canvas.toDataURL("image/png");
+      const image = canvas.toDataURL("image/png"); // 画像をBase64に変換
 
-      // 🖼 자동 다운로드 기능 추가
+      // 🖼 自動ダウンロード処理
       const link = document.createElement("a");
       link.href = image;
-      link.download = "screenshot.png";
+      link.download = "screenshot.png"; // ダウンロードファイル名
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
-      console.log("📸 캡처 및 다운로드 성공!");
+      console.log(
+        "📸 スクリーンショットのキャプチャとダウンロードに成功しました！"
+      );
     } catch (error) {
-      console.error("📸 스크린샷 캡처 오류:", error);
+      console.error("📸 スクリーンショットキャプチャのエラー:", error);
     }
   };
 
-  console.log("🔍 레스토랑 데이터:", restaurant);
+  console.log("🔍 レストランデータ:", restaurant);
 
   return (
     <div className={styles.detail} ref={captureRef}>
@@ -71,12 +74,13 @@ const Detail = () => {
       <ItemBox setLatLng={() => {}} />
       <div className={styles.detailContent}>
         <div className={styles.thumbnailInfo}>
+          {/* レストランのメイン画像 */}
           <img
             src={restaurant.photo.pc.l}
             alt="restaurantImg"
             className={styles.restaurantImage}
           />
-          {/* 가게 정보 */}
+          {/* レストラン情報 */}
           <div className={styles.restaurantInfo}>
             <div className={styles.restaurantTitle}>
               <h2 className={styles.restaurantName}>{restaurant.name}</h2>
@@ -86,6 +90,7 @@ const Detail = () => {
             </div>
             <p className={styles.restaurantCatch}>{restaurant.catch}</p>
             <p className={styles.restaurantSubway}>{restaurant.access}</p>
+            {/* スクリーンショットボタン */}
             <span
               className={`${styles.shareIcon} material-symbols-outlined`}
               onClick={handleScreenshot}
@@ -98,6 +103,7 @@ const Detail = () => {
 
         <div className={styles.divider}></div>
 
+        {/* 詳細情報 */}
         <div className={styles.detailInfo}>
           <h2>住所</h2>
           <p>{restaurant.address}</p>
@@ -106,7 +112,7 @@ const Detail = () => {
           <h2>平均価格</h2>
           <p>{restaurant.budget.name}</p>
           <h2>条件</h2>
-          {/* 조건 버튼 리스트 */}
+          {/* レストランの条件をボタンとして表示 */}
           <div className={styles.conditionTags}>
             {Object.keys(conditionMappings)
               .filter(
