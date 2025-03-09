@@ -102,7 +102,7 @@ npm run dev
 
 | **ホーム画面** | **検索結果ページ** | **レストラン詳細ページ** |
 |-------------|------------------|------------------|
-| ![홈 화면](./screenshots/screenshot-home.png) | ![검색 결과 페이지](./screenshots/screenshot-search.png) | ![레스토랑 상세 페이지](./screenshots/screenshot-detail.png) |
+| ![홈 화면](./kangrumap/public/screenshots/screenshot-home.png) | ![검색 결과 페이지](./kangrumap/public/screenshots/screenshot-search.png) | ![레스토랑 상세 페이지](./kangrumap/public/screenshots/screenshot-detail.png) |
 
 ---
 
@@ -289,7 +289,7 @@ npm run dev
 ## 📸 스크린샷 (기능 미리보기)
 | **홈 화면** | **검색 결과 페이지** | **레스토랑 상세 페이지** |
 |-------------|------------------|------------------|
-| ![홈 화면](./screenshots/screenshot-home.png) | ![검색 결과 페이지](./screenshots/screenshot-search.png) | ![레스토랑 상세 페이지](./screenshots/screenshot-detail.png) |
+| ![홈 화면](./kangrumap/public/screenshots/screenshot-home.png) | ![검색 결과 페이지](./kangrumap/public/screenshots/screenshot-search.png) | ![레스토랑 상세 페이지](./kangrumap/public/screenshots/screenshot-detail.png) |
 
 ## API 요청 예시
 
