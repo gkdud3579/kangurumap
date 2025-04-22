@@ -21,11 +21,20 @@ const useGenres = () => {
     // 🔹 ジャンルデータをAPIから取得する非同期関数
     const fetchGenres = async () => {
       try {
+        if (!API_KEY) {
+          throw new Error("APIキーが設定されていません。");
+        }
+
         // APIリクエストを送信
         const response = await fetch(
-          `${API_BASE_URL}/genre/v1/?key=${API_KEY}&format=json`
+          `/api/hotpepper/genre/v1/?key=${API_KEY}&format=json`
         );
-        const data = await response.json(); // JSON形式でデータを取得
+
+        if (!response.ok) {
+          throw new Error(`APIリクエストが失敗しました: ${response.status}`);
+        }
+
+        const data = await response.json();
 
         // 🔹 APIからデータを正常に受信した場合
         if (data.results?.genre) {
@@ -39,6 +48,7 @@ const useGenres = () => {
           throw new Error("ジャンルデータを取得できませんでした。");
         }
       } catch (err) {
+        console.error("ジャンル取得エラー:", err);
         setError(err.message); // エラーメッセージをセット
       }
     };

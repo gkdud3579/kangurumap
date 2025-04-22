@@ -46,7 +46,7 @@ const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
         const startIndex = (page - 1) * 10 + 1;
 
         // 🔹 API リクエスト URL を作成
-        const url = `${API_BASE_URL}/gourmet/v1/?key=${API_KEY}&lat=${lat}&lng=${lng}&range=${apiRange}&genre=${encodeURIComponent(
+        const url = `/api/hotpepper/gourmet/v1/?key=${API_KEY}&lat=${lat}&lng=${lng}&range=${apiRange}&genre=${encodeURIComponent(
           genre || ""
         )}&${featureParams}&format=json&start=${startIndex}`;
 
