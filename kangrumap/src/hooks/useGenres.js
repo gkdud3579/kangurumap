@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 
 // 環境変数からAPIキーとベースURLを取得
 const API_KEY = import.meta.env.VITE_HOTPEPPER_API_KEY;
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // HTTPの画像URLをHTTPSに変換する関数
 const ensureHttps = (url) =>
@@ -25,14 +24,10 @@ const useGenres = () => {
           throw new Error("APIキーが設定されていません。");
         }
 
-        // 開発環境と本番環境によってAPIエンドポイントを切り替え
-        const isDevelopment = import.meta.env.DEV;
-        const apiUrl = isDevelopment
-          ? `/api/hotpepper/genre/v1/?key=${API_KEY}&format=json`
-          : `${API_BASE_URL}/genre/v1/?key=${API_KEY}&format=json`;
-
         // APIリクエストを送信
-        const response = await fetch(apiUrl);
+        const response = await fetch(
+          `/api/hotpepper?path=genre/v1&key=${API_KEY}&format=json`
+        );
 
         if (!response.ok) {
           throw new Error(`APIリクエストが失敗しました: ${response.status}`);

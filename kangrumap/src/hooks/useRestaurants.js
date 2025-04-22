@@ -46,14 +46,19 @@ const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
         const startIndex = (page - 1) * 10 + 1;
 
         // 🔹 API リクエスト URL を作成
-        const isDevelopment = import.meta.env.DEV;
-        const apiUrl = isDevelopment
-          ? `/api/hotpepper/gourmet/v1/?key=${API_KEY}&lat=${lat}&lng=${lng}&range=${apiRange}&genre=${encodeURIComponent(
-              genre || ""
-            )}&${featureParams}&format=json&start=${startIndex}`
-          : `${API_BASE_URL}/gourmet/v1/?key=${API_KEY}&lat=${lat}&lng=${lng}&range=${apiRange}&genre=${encodeURIComponent(
-              genre || ""
-            )}&${featureParams}&format=json&start=${startIndex}`;
+        const queryParams = new URLSearchParams({
+          path: 'gourmet/v1',
+          key: API_KEY,
+          lat: lat,
+          lng: lng,
+          range: apiRange,
+          genre: genre || '',
+          format: 'json',
+          start: startIndex,
+          ...Object.fromEntries(featureParams.split('&').map(param => param.split('=')))
+        });
+
+        const apiUrl = `/api/hotpepper?${queryParams.toString()}`;
 
         console.log("📡 APIリクエスト URL:", apiUrl);
         console.log(
