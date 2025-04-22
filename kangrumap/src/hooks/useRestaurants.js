@@ -46,11 +46,16 @@ const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
         const startIndex = (page - 1) * 10 + 1;
 
         // 🔹 API リクエスト URL を作成
-        const url = `/api/hotpepper/gourmet/v1/?key=${API_KEY}&lat=${lat}&lng=${lng}&range=${apiRange}&genre=${encodeURIComponent(
-          genre || ""
-        )}&${featureParams}&format=json&start=${startIndex}`;
+        const isDevelopment = import.meta.env.DEV;
+        const apiUrl = isDevelopment
+          ? `/api/hotpepper/gourmet/v1/?key=${API_KEY}&lat=${lat}&lng=${lng}&range=${apiRange}&genre=${encodeURIComponent(
+              genre || ""
+            )}&${featureParams}&format=json&start=${startIndex}`
+          : `${API_BASE_URL}/gourmet/v1/?key=${API_KEY}&lat=${lat}&lng=${lng}&range=${apiRange}&genre=${encodeURIComponent(
+              genre || ""
+            )}&${featureParams}&format=json&start=${startIndex}`;
 
-        console.log("📡 APIリクエスト URL:", url);
+        console.log("📡 APIリクエスト URL:", apiUrl);
         console.log(
           "🔎 選択されたジャンル:",
           genre,
@@ -65,7 +70,7 @@ const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
         );
 
         // 🔹 API からデータを取得
-        const response = await fetch(url, { signal });
+        const response = await fetch(apiUrl, { signal });
         if (!response.ok) {
           throw new Error(`HTTPエラー！ステータス: ${response.status}`);
         }

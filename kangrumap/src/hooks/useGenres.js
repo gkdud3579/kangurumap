@@ -25,10 +25,14 @@ const useGenres = () => {
           throw new Error("APIキーが設定されていません。");
         }
 
+        // 開発環境と本番環境によってAPIエンドポイントを切り替え
+        const isDevelopment = import.meta.env.DEV;
+        const apiUrl = isDevelopment
+          ? `/api/hotpepper/genre/v1/?key=${API_KEY}&format=json`
+          : `${API_BASE_URL}/genre/v1/?key=${API_KEY}&format=json`;
+
         // APIリクエストを送信
-        const response = await fetch(
-          `/api/hotpepper/genre/v1/?key=${API_KEY}&format=json`
-        );
+        const response = await fetch(apiUrl);
 
         if (!response.ok) {
           throw new Error(`APIリクエストが失敗しました: ${response.status}`);
