@@ -45,8 +45,8 @@ const Result = () => {
     currentPage
   );
 
-  // 🔹 総ページ数の計算（1ページあたり10件）
-  const totalPages = Math.ceil(resultsAvailable / 10);
+  // 🔹 総ページ数の計算（1ページあたり5件）
+  const totalPages = Math.ceil(resultsAvailable / 5);
 
   // 🔹 検索条件の復元 & 新しい検索時に localStorage 更新
   useEffect(() => {
