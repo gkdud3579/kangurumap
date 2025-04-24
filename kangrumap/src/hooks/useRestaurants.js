@@ -44,10 +44,14 @@ const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
         const apiRange = distance ? Math.min(Math.ceil(distance / 500), 5) : 3;
 
         // 🔹 オプションパラメータを組み立て (例: wifi=あり&card=あり)
-        const featureParams =
-          options && options.length > 0
-            ? options.map((option) => `${option}=あり`).join("&")
-            : "";
+        const featureParams = options && options.length > 0
+          ? options.map((option) => {
+              if (option === "wifi") {
+                return `${option}=1`;  // WiFiは 1 に設定
+              }
+              return `${option}=あり`;
+            }).join("&")
+          : "";
 
         // 🔹 ページネーションの開始インデックス計算 (10件ずつ取得)
         const startIndex = (page - 1) * 10 + 1;
