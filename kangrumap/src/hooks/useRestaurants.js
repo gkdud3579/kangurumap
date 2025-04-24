@@ -9,6 +9,13 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const ensureHttps = (url) =>
   url?.startsWith("http://") ? url.replace("http://", "https://") : url;
 
+const optionMappings = {
+  english: "英語メニュー",
+  wifi: "wifi",
+  card: "カード払い",
+  non_smoking: "禁煙席",
+}
+
 /**
  * 🔹 レストラン情報を取得するカスタムフック
  * @param {number} lat - 緯度
