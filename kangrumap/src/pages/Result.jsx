@@ -84,26 +84,6 @@ const Result = () => {
     }
   }, [location.search, location.state?.fromDetail]);
 
-  // 🍽️ 選択した条件でレストランをフィルタリング
-  const filteredRestaurants = restaurants
-    ? restaurants.filter((restaurant) => {
-      // 1️⃣ ジャンルフィルタリング（選択されている場合のみ適用）
-      const genreMatch = selectedGenres.length
-        ? selectedGenres.includes(restaurant.genre?.code)
-        : true;
-
-      // 2️⃣ オプションフィルタリング（API からのデータと比較）
-      const optionsMatch = selectedOptions.length
-        ? selectedOptions.every((option) => {
-          const apiOption = restaurant[option]?.trim().toLowerCase(); // 空白を削除し、小文字変換
-          return apiOption === "あり" || apiOption === "利用可"; // 正確な値を比較
-        })
-        : true;
-
-      return genreMatch && optionsMatch;
-    })
-    : [];
-
   return (
     <div className={styles.result}>
       <Header />

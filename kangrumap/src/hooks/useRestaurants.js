@@ -66,6 +66,7 @@ const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
           genre: genre || '',
           format: 'json',
           start: startIndex,
+          count: 5,
           ...Object.fromEntries(featureParams.split('&').map(param => param.split('=')))
         });
 
