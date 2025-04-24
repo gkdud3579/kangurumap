@@ -46,7 +46,7 @@ const useRestaurants = (lat, lng, genre, distance, options = [], page = 1) => {
         // 🔹 オプションパラメータを組み立て (例: wifi=あり&card=あり)
         const featureParams = options && options.length > 0
           ? options.map((option) => {
-              if (option === "wifi") {
+              if (option === "wifi" || option === "non_smoking") {
                 return `${option}=1`;  // WiFiは 1 に設定
               }
               return `${option}=あり`;
