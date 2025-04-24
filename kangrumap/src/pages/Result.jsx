@@ -48,42 +48,6 @@ const Result = () => {
   // 🔹 総ページ数の計算（1ページあたり10件）
   const totalPages = Math.ceil(resultsAvailable / 10);
 
-  // 🔹 検索条件の復元 & 新しい検索時に localStorage 更新
-  useEffect(() => {
-    console.log("🔄 検索条件の変更を検知:", location.search);
-
-    const queryParams = new URLSearchParams(location.search);
-    const savedSearchParams = localStorage.getItem("searchParams");
-
-    if (location.state?.fromDetail && savedSearchParams) {
-      console.log("🔄 Detail ページから戻りました。検索条件を復元します。");
-
-      const searchState = JSON.parse(savedSearchParams);
-      setSelectedGenres(searchState.selectedGenres || []);
-      setSelectedOptions(searchState.selectedOptions || []);
-      setSelectedDistance(searchState.selectedDistance || "");
-      setCurrentPage(
-        location.state.prevPage ? Number(location.state.prevPage) : 1
-      );
-    } else {
-      console.log("📡 新しい検索を実行: ", queryParams.toString());
-
-      setSelectedGenres(queryParams.get("genre")?.split(",") || []);
-      setSelectedOptions(queryParams.get("options")?.split(",") || []);
-      setSelectedDistance(queryParams.get("distance") || "");
-
-      // 新しい検索条件を 'local Storage' に保存
-      const searchParams = {
-        selectedGenres: queryParams.get("genre")?.split(",") || [],
-        selectedOptions: queryParams.get("options")?.split(",") || [],
-        selectedDistance: queryParams.get("distance") || "",
-      };
-      localStorage.setItem("searchParams", JSON.stringify(searchParams));
-      localStorage.setItem("currentPage", 1); // 新しい検索なので最初のページに初期化
-      setCurrentPage(1);
-    }
-  }, [location.search, location.state?.fromDetail]);
-
   // 🍽️ 選択した条件でレストランをフィルタリング
   const filteredRestaurants = restaurants
     ? restaurants.filter((restaurant) => {
@@ -129,7 +93,8 @@ const Result = () => {
           {/* {filteredRestaurants.length > 0 ? ( */}
             {resultsAvailable > 0 ? (
             <>
-              {filteredRestaurants.map((restaurant) => (
+              {/* {filteredRestaurants.map((restaurant) => ( */}
+                {restaurants.map((restaurant) => (
                 <RestaurantCard
                   key={restaurant.id}
                   restaurant={restaurant}
