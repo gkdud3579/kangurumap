@@ -75,9 +75,10 @@ const Detail = () => {
       <div className={styles.detailContent}>
         <div className={styles.thumbnailInfo}>
           {/* レストランのメイン画像 */}
-          <img
-            src={restaurant.photo.pc.l}
-            alt="restaurantImg"
+          <div
+            // src={restaurant.photo.pc.l}
+            style={{ backgroundImage: `url(${restaurant.photo.pc.l})` }}
+            // alt="restaurantImg"
             className={styles.restaurantImage}
           />
           {/* レストラン情報 */}
