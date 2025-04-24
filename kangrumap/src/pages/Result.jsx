@@ -126,7 +126,8 @@ const Result = () => {
           )}
 
           {/* 🔹 レストランリストの表示 */}
-          {filteredRestaurants.length > 0 ? (
+          {/* {filteredRestaurants.length > 0 ? ( */}
+            {resultsAvailable > 0 ? (
             <>
               {filteredRestaurants.map((restaurant) => (
                 <RestaurantCard
